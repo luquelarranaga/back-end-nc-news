@@ -39,4 +39,16 @@ describe("createLookUpObject", () => {
         console.log("correctKeys :", correctKeys)
         expect(correctKeys).toBe(true)
     });
+    test("The values in the returned object match the value passed in as an argument", () => {
+        const array = [{name: "hey", age: 2}]
+        const key = "name"
+        const value = "age"
+
+        const lookUpObject = createLookUpObject(array, key, value)
+        const lookUpObjectValues = Object.values(lookUpObject)
+        const correctValues = lookUpObjectValues.every((valueName) => {
+            return valueName === array[0][value];
+        })
+        expect(correctValues).toBe(true)
+    });
 });
