@@ -13,7 +13,7 @@ afterAll(() => {
 });
 
 describe(("/api/articles/"), () => {
-    test(("GET 200: responds with the correct topics object"), ()=> {
+    test(("GET 200: responds with the correct articles object"), ()=> {
         return request(app)
         .get("/api/articles/")
         .expect(200)
