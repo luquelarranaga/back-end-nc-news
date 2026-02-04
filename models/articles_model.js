@@ -13,4 +13,12 @@ const fetchAllArticles = async() => {
     return rows
 }
 
-module.exports = fetchAllArticles;
+const fetchArticleID = async(article_id) => {
+    const result = await db.query(`SELECT * FROM articles WHERE article_id = $1`, [article_id])
+    //returns an object that contains keys such as body and rows. Rows contains the values we want
+    const {rows} = result
+    return rows
+}
+
+
+module.exports = {fetchAllArticles, fetchArticleID};
