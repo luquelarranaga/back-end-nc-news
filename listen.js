@@ -8,3 +8,5 @@ app.listen(8000, (err) => {
         console.log("Listening on port 8000")
     }
 })
+
+module.exports = listen
