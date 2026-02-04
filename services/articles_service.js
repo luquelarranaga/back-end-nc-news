@@ -7,10 +7,17 @@ const getAllArticlesService = () => {
 }
 
 const getArticleIDService = (article_id) => {
-    // console.log("service article id: ", article_id)
-    // if (typeof article_id === "number") {
+    console.log("service article id: ", article_id, 2)
+    const regex = /^\d+/
+    if (regex.test(article_id)) {
         return fetchArticleID(article_id);
+    } 
+    // else if (article_id === null) {
+
+    // } else if (article_id === undefined) {
+
     // }
+
 }
 
 module.exports = {getAllArticlesService, getArticleIDService}
