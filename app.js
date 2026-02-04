@@ -1,11 +1,11 @@
 const express = require("express");
-const app = express();
-app.use(express.join());
 const topicsRouter = require("./routers/topic_routes")
+const app = express();
+app.use(express.json());
 
 app.use('/api/topics', topicsRouter);
 
-module.export = app
+module.exports = app
 
 
 
