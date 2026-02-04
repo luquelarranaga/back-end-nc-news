@@ -10,7 +10,8 @@
     "prepare": "husky install",
     "start": "node listen.js",
     "test-seed": "jest seed.test.js",
-    "query-test-data": "NODE_ENV=test node /Users/malula/NORTHCODERS/projects/nc-news-BE/db/seeds/queries"
+    "query-test-data": "NODE_ENV=test node /Users/malula/NORTHCODERS/projects/nc-news-BE/db/seeds/queries",
+    "dev": "nodemon listen.js"
   },
   "repository": {
     "type": "git",
