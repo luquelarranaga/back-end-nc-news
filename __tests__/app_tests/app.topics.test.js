@@ -13,17 +13,26 @@ afterAll(() => {
 });
 
 describe(("/api/topics/"), () => {
+    test(("GET 200: responds with an object with a key of topics with a value of an array of objects"), ()=> {
+        return request(app)
+        .get("/api/topics/")
+        .expect(200)
+        .then(({body}) => {     
+            expect(body).toBeObject()
+            expect(body.topics).toBeArray()
+        })
+    })
     test(("GET 200: responds with the correct topics object"), ()=> {
         return request(app)
         .get("/api/topics")
         .expect(200)
-        .then(({body}) => {          
-            const correctShape = body.every((topic) => {
-                return typeof topic.slug === "string" &&
-                    typeof topic.description === "string" &&
-                    typeof topic.img_url === "string"
-            }) 
-            expect(correctShape).toBe(true)
+        .then(({body}) => {  
+            const {topics} = body      
+            topics.forEach((topic)=> {
+                expect(typeof topic.slug).toBe("string");
+                expect(typeof topic.description).toBe("string");
+                expect(typeof topic.img_url).toBe("string");
+            })        
         })
     })
 })

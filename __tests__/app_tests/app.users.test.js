@@ -13,12 +13,11 @@ afterAll(() => {
 });
 
 describe(("/api/users/"), () => {
-    test(("GET 200: responds with an object with a key of users"), ()=> {
+    test(("GET 200: responds with a key of topics with a value of an array of objects"), ()=> {
         return request(app)
         .get("/api/users/")
         .expect(200)
         .then(({body}) => {     
-            console.log("body in test", body)     
             expect(body).toBeObject()
             expect(body.users).toBeArray()
         })
