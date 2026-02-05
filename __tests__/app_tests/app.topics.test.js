@@ -46,8 +46,10 @@ describe("/api/topics/", () => {
           expect(body.msg).toBe("Path not found!");
         });
     });
-    test("400: invalid input data type returns an error message", () => {});
-    test("404: input not available in the database returns an error message", () => {});
-    test("405: incorrect http method returns an error message", () => {});
+    // test("405: incorrect http method returns an error message", () => {
+    //     const methods = ['']
+    //     return request(app)
+
+    // });
   });
 });
