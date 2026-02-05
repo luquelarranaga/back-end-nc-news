@@ -89,6 +89,14 @@ describe("/api/articles/:article_id", () => {
         expect(isCorrectArticle).toBe(true);
       });
   });
+  test("400: returns error message when given wrong data type for article_id", () => {
+    return request(app)
+      .get("/api/articles/sjaks")
+      .expect(400)
+      .then(({ body }) => {
+        expect(body.msg).toBe("Invalid ID data type!");
+      });
+  });
 });
 
 describe("invalid file path", () => {
@@ -101,3 +109,10 @@ describe("invalid file path", () => {
       });
   });
 });
+
+//do method tests at the end ?
+// - id is either wrong data type(400 (bad request), could send msg "invalid id type")
+// - id not available in the db (404 (not found), could send back a message of "ID not found")
+// 	- the id would return as undefined
+// - typo within the rest of the path (400 (bad request), could send msg "path not found")
+// - incorrect http method invoked (405 (method not allowed), "method not allowed")
