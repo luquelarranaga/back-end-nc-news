@@ -13,17 +13,27 @@ afterAll(() => {
 });
 
 describe(("/api/users/"), () => {
+    test(("GET 200: responds with an object with a key of users"), ()=> {
+        return request(app)
+        .get("/api/users/")
+        .expect(200)
+        .then(({body}) => {     
+            console.log("body in test", body)     
+            expect(body).toBeObject()
+            expect(body.users).toBeArray()
+        })
+    })
     test(("GET 200: responds with the correct users object"), ()=> {
         return request(app)
         .get("/api/users/")
         .expect(200)
-        .then(({body}) => {          
-            const correctShape = body.every((user) => {
-                return typeof user.username === "string" &&
-                    typeof user.name === "string" &&
-                    typeof user.avatar_url === "string"
-            }) 
-            expect(correctShape).toBe(true)
+        .then(({body}) => {    
+            const {users} = body      
+            users.forEach((user)=> {
+                expect(typeof user.username).toBe("string");
+                expect(typeof user.name).toBe("string");
+                expect(typeof user.avatar_url).toBe("string");
+            })
         })
     })
 })
