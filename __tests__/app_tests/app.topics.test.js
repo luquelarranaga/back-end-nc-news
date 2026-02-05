@@ -37,4 +37,10 @@ describe("/api/topics/", () => {
         });
     });
   });
+  describe("ERROR HANDLING", () => {
+    test("400: incorrect path returns an error message", () => {});
+    test("400: invalid input data type returns an error message", () => {});
+    test("404: input not available in the database returns an error message", () => {});
+    test("405: incorrect http method returns an error message", () => {});
+  });
 });
