@@ -1,4 +1,7 @@
 const db = require("../db/connection");
+const checkArticleIdExists = require("../utils/doesArticleExist");
+const NotFoundError = require("../errors/NotFoundError");
+const doesArticleExist = require("../utils/doesArticleExist");
 
 const fetchAllArticles = async () => {
   const result = await db.query(`
@@ -24,6 +27,11 @@ const fetchArticleID = async (article_id) => {
 };
 
 const fetchArticleComments = async (article_id) => {
+  const articleExists = await doesArticleExist(article_id);
+  if (articleExists === false) {
+    throw new NotFoundError("Article ID not found!");
+  }
+
   const result = await db.query(
     `
     SELECT * FROM comments
@@ -31,13 +39,8 @@ const fetchArticleComments = async (article_id) => {
     ON comments.article_id = articles.article_id
     WHERE comments.article_id = $1`,
     [article_id],
-    // [article_id],
   );
   const { rows } = result;
   return rows;
 };
 module.exports = { fetchAllArticles, fetchArticleID, fetchArticleComments };
-
-// RIGHT JOIN articles
-//   ON articles.article_id = comments.article_id
-//   WHERE articles.article_id = $1

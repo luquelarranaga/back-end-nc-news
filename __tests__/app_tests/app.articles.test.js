@@ -168,14 +168,15 @@ describe("/api/articles/:article_id/comments", () => {
             expect(body.msg).toBe("Invalid ID data type!");
           });
       });
-      // test("404: returns error message when given input doesn't exist in database", () => {
-      //   return request(app)
-      //     .get("/api/articles/9999999")
-      //     .expect(404)
-      //     .then(({ body }) => {
-      //       expect(body.msg).toBe("Category ID not found!");
-      //     });
-      // });
+      test("404: returns error message when given article_id doesn't exist in database", () => {
+        return request(app)
+          .get("/api/articles/9999999/comments")
+          .expect(404)
+          .then(({ body }) => {
+            console.log("testing body>>> ", body);
+            expect(body.msg).toBe("Article ID not found!");
+          });
+      });
     });
   });
 });
