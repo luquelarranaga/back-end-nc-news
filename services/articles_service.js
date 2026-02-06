@@ -2,6 +2,8 @@ const exportObject = require("../models/articles_model");
 const { fetchAllArticles } = exportObject;
 const { fetchArticleID } = exportObject;
 const { fetchArticleComments } = exportObject;
+const { insertComment } = exportObject;
+
 const NotFoundError = require("../errors/NotFoundError");
 
 const getAllArticlesService = () => {
@@ -27,8 +29,13 @@ const getArticleCommentsService = async (article_id) => {
   }
 };
 
+const addCommentService = async (newComment, article_id) => {
+  const comment = await insertComment(newComment, article_id);
+  return comment;
+};
 module.exports = {
   getAllArticlesService,
   getArticleIDService,
   getArticleCommentsService,
+  addCommentService,
 };

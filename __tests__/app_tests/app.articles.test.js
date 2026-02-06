@@ -12,7 +12,7 @@ afterAll(() => {
   return db.end;
 });
 
-describe("/api/articles/", () => {
+describe("GET: /api/articles/", () => {
   describe("GET 200", () => {
     test("responds with an object with a key of articles with a value of an array of objects", () => {
       return request(app)
@@ -54,7 +54,7 @@ describe("/api/articles/", () => {
   });
 });
 
-describe("/api/articles/:article_id", () => {
+describe("GET: /api/articles/:article_id", () => {
   describe("GET 200", () => {
     test("responds with an object with a key of articles with a value of an object", () => {
       return request(app)
@@ -112,9 +112,9 @@ describe("/api/articles/:article_id", () => {
   });
 });
 
-describe("/api/articles/:article_id/comments", () => {
-  describe("GET 200: ", () => {
-    test("GET 200: responds with an object with a key of comments with a value of an array of comments", () => {
+describe("GET: /api/articles/:article_id/comments", () => {
+  describe("200: ", () => {
+    test("responds with an object with a key of comments with a value of an array of comments", () => {
       return request(app)
         .get("/api/articles/1/comments")
         .expect(200)
@@ -123,7 +123,7 @@ describe("/api/articles/:article_id/comments", () => {
           expect(body.comments).toBeArray();
         });
     });
-    test("GET 200: every comment object contains the correct properties", () => {
+    test("every comment object contains the correct properties", () => {
       return request(app)
         .get("/api/articles/1/comments")
         .expect(200)
@@ -139,7 +139,7 @@ describe("/api/articles/:article_id/comments", () => {
           });
         });
     });
-    test("GET 200: the returned comments correspond to the correct article_id", () => {
+    test("the returned comments correspond to the correct article_id", () => {
       return request(app)
         .get("/api/articles/1/comments")
         .expect(200)
@@ -150,7 +150,7 @@ describe("/api/articles/:article_id/comments", () => {
           });
         });
     });
-    test("GET 200: returns the correct number of comments per article", () => {
+    test("returns the correct number of comments per article", () => {
       return request(app)
         .get("/api/articles/1/comments")
         .expect(200)
@@ -173,11 +173,81 @@ describe("/api/articles/:article_id/comments", () => {
           .get("/api/articles/9999999/comments")
           .expect(404)
           .then(({ body }) => {
-            console.log("testing body>>> ", body);
             expect(body.msg).toBe("Article ID not found!");
           });
       });
     });
+  });
+});
+
+describe("POST: /api/articles/:article_id/comments", () => {
+  describe("201: ", () => {
+    test("responds with an object", () => {
+      return request(app)
+        .post("/api/articles/1/comments")
+        .send({ username: "butter_bridge", body: "this is my comment" })
+        .expect(201)
+        .then(({ body }) => {
+          //we receive the object of the response, which contains a body that is our inserted comment
+          const { comment } = body;
+          expect(comment).toBeObject();
+        });
+    });
+    //   test("GET 200: every comment object contains the correct properties", () => {
+    //     return request(app)
+    //       .get("/api/articles/1/comments")
+    //       .expect(200)
+    //       .then(({ body }) => {
+    //         const { comments } = body;
+    //         comments.forEach((comment) => {
+    //           expect(typeof comment.comment_id).toBe("number");
+    //           expect(typeof comment.votes).toBe("number");
+    //           expect(typeof comment.created_at).toBe("string");
+    //           expect(typeof comment.author).toBe("string");
+    //           expect(typeof comment.body).toBe("string");
+    //           expect(typeof comment.article_id).toBe("number");
+    //         });
+    //       });
+    //   });
+    //   test("GET 200: the returned comments correspond to the correct article_id", () => {
+    //     return request(app)
+    //       .get("/api/articles/1/comments")
+    //       .expect(200)
+    //       .then(({ body }) => {
+    //         const { comments } = body;
+    //         comments.forEach((comment) => {
+    //           expect(comment.article_id).toBe(1);
+    //         });
+    //       });
+    //   });
+    //   test("GET 200: returns the correct number of comments per article", () => {
+    //     return request(app)
+    //       .get("/api/articles/1/comments")
+    //       .expect(200)
+    //       .then(({ body }) => {
+    //         const { comments } = body;
+    //         expect(comments.length).toBe(11);
+    //       });
+    //   });
+    //   describe("Errors: ", () => {
+    //     test("400: returns error message when given wrong data type for article_id", () => {
+    //       return request(app)
+    //         .get("/api/articles/jjska/comments")
+    //         .expect(400)
+    //         .then(({ body }) => {
+    //           expect(body.msg).toBe("Invalid ID data type!");
+    //         });
+    //     });
+    //     test("404: returns error message when given article_id doesn't exist in database", () => {
+    //       return request(app)
+    //         .get("/api/articles/9999999/comments")
+    //         .expect(404)
+    //         .then(({ body }) => {
+    //           console.log("testing body>>> ", body);
+    //           expect(body.msg).toBe("Article ID not found!");
+    //         });
+    //     });
+    //   });
   });
 });
 

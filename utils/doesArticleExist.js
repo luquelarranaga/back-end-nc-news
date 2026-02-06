@@ -6,7 +6,6 @@ async function doesArticleExist(article_id) {
     `SELECT * FROM articles WHERE article_id = $1`,
     [article_id],
   );
-
   return rows.length === 1;
 }
 

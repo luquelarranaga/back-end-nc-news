@@ -43,4 +43,36 @@ const fetchArticleComments = async (article_id) => {
   const { rows } = result;
   return rows;
 };
-module.exports = { fetchAllArticles, fetchArticleID, fetchArticleComments };
+
+const insertComment = async (newComment, article_id) => {
+  // console.log("new comment has reached model layer>>>", newComment);
+  // console.log("username>>>", newComment.username);
+  // console.log("body>>>", newComment.body);
+
+  // const newComment = {
+  //   username: "maria",
+  //   body: "example body",
+  // };
+
+  try {
+    const result = await db.query(
+      `
+    INSERT INTO comments (article_id, body, votes, author, created_at)
+    VALUES
+    ($1, $2, 0, $3, CURRENT_TIMESTAMP)
+    RETURNING *
+    `,
+      [article_id, newComment.body, newComment.username],
+    );
+    const { rows } = result;
+    return rows[0];
+  } catch (err) {
+    console.log(err);
+  }
+};
+module.exports = {
+  fetchAllArticles,
+  fetchArticleID,
+  fetchArticleComments,
+  insertComment,
+};
