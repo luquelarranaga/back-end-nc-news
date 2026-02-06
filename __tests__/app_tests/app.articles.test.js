@@ -139,7 +139,18 @@ describe("/api/articles/:article_id/comments", () => {
           });
         });
     });
-    //   test("GET 200: the returned comments correspond to the correct article_id", () => {});
+    test("GET 200: the returned comments correspond to the correct article_id", () => {
+      return request(app)
+        .get("/api/articles/1/comments")
+        .expect(200)
+        .then(({ body }) => {
+          const { comments } = body;
+          console.log("testing comments >>>>", comments);
+          comments.forEach((comment) => {
+            expect(comment.article_id).toBe(1);
+          });
+        });
+    });
     //   test("GET 200: responds with an object with a key of articles with a value of an object", () => {});
     // });
     // test("Errors: ", () => {

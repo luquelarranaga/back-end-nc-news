@@ -26,10 +26,13 @@ const fetchArticleID = async (article_id) => {
 const fetchArticleComments = async (article_id) => {
   const result = await db.query(
     `
-    SELECT * FROM comments`,
+    SELECT * FROM comments
+    JOIN articles
+    ON comments.article_id = articles.article_id
+    WHERE comments.article_id = $1`,
+    [article_id],
     // [article_id],
   );
-  console.log("result rows from fetchArticleCOmments >>>", result.rows);
   const { rows } = result;
   return rows;
 };
