@@ -145,12 +145,22 @@ describe("/api/articles/:article_id/comments", () => {
         .expect(200)
         .then(({ body }) => {
           const { comments } = body;
-          console.log("testing comments >>>>", comments);
           comments.forEach((comment) => {
             expect(comment.article_id).toBe(1);
           });
         });
     });
+    test("GET 200: returns the correct number of comments per article", () => {
+      return request(app)
+        .get("/api/articles/1/comments")
+        .expect(200)
+        .then(({ body }) => {
+          const { comments } = body;
+          console.log("testing comments >>>>", comments);
+          expect(comments.length).toBe(11);
+        });
+    });
+    //test how many comments comign back
     //   test("GET 200: responds with an object with a key of articles with a value of an object", () => {});
     // });
     // test("Errors: ", () => {
