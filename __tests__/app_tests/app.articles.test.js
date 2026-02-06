@@ -123,7 +123,22 @@ describe("/api/articles/:article_id/comments", () => {
           expect(body.comments).toBeArray();
         });
     });
-    //   test("GET 200: every comment object contains the correct properties", () => {});
+    test("GET 200: every comment object contains the correct properties", () => {
+      return request(app)
+        .get("/api/articles/1/comments")
+        .expect(200)
+        .then(({ body }) => {
+          const { comments } = body;
+          comments.forEach((comment) => {
+            expect(typeof comment.comment_id).toBe("number");
+            expect(typeof comment.votes).toBe("number");
+            expect(typeof comment.created_at).toBe("string");
+            expect(typeof comment.author).toBe("string");
+            expect(typeof comment.body).toBe("string");
+            expect(typeof comment.article_id).toBe("number");
+          });
+        });
+    });
     //   test("GET 200: the returned comments correspond to the correct article_id", () => {});
     //   test("GET 200: responds with an object with a key of articles with a value of an object", () => {});
     // });
