@@ -19,7 +19,11 @@ const getArticleIDService = async (article_id) => {
 
 const getArticleCommentsService = async (article_id) => {
   const comments = await fetchArticleComments(article_id);
-  return comments;
+  if (comments === undefined) {
+    throw new NotFoundError("Category ID not found!");
+  } else {
+    return comments;
+  }
 };
 
 module.exports = {

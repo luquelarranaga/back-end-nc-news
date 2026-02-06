@@ -26,7 +26,16 @@ const getArticleID = async (req, res, next) => {
 
 const getArticleComments = async (req, res, next) => {
   const { article_id } = req.params;
-  const comments = await getArticleCommentsService(article_id);
-  return res.status(200).send({ comments: comments });
+  const regex = /^\d+/;
+  if (regex.test(article_id) === false) {
+    return res.status(400).send({ msg: "Invalid ID data type!" });
+  }
+
+  try {
+    const comments = await getArticleCommentsService(article_id);
+    return res.status(200).send({ comments: comments });
+  } catch (err) {
+    next(err);
+  }
 };
 module.exports = { getAllArticles, getArticleID, getArticleComments };

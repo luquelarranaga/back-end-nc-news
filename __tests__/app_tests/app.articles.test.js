@@ -156,16 +156,27 @@ describe("/api/articles/:article_id/comments", () => {
         .expect(200)
         .then(({ body }) => {
           const { comments } = body;
-          console.log("testing comments >>>>", comments);
           expect(comments.length).toBe(11);
         });
     });
-    //test how many comments comign back
-    //   test("GET 200: responds with an object with a key of articles with a value of an object", () => {});
-    // });
-    // test("Errors: ", () => {
-    //   test("returns error message when given wrong data type for comments", () => {});
-    //   test("returns error message when given article_id doesn't exist in database", () => {});
+    describe("Errors: ", () => {
+      test("400: returns error message when given wrong data type for article_id", () => {
+        return request(app)
+          .get("/api/articles/jjska/comments")
+          .expect(400)
+          .then(({ body }) => {
+            expect(body.msg).toBe("Invalid ID data type!");
+          });
+      });
+      // test("404: returns error message when given input doesn't exist in database", () => {
+      //   return request(app)
+      //     .get("/api/articles/9999999")
+      //     .expect(404)
+      //     .then(({ body }) => {
+      //       expect(body.msg).toBe("Category ID not found!");
+      //     });
+      // });
+    });
   });
 });
 
