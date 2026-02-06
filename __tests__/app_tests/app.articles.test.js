@@ -59,7 +59,7 @@ describe("/api/articles/:article_id", () => {
       .expect(200)
       .then(({ body }) => {
         expect(body).toBeObject();
-        expect(body.article).toBeArray();
+        expect(body.article).toBeObject();
       });
   });
   test("GET 200: responds with the correct article object", () => {
@@ -67,16 +67,15 @@ describe("/api/articles/:article_id", () => {
       .get("/api/articles/1")
       .expect(200)
       .then(({ body }) => {
-        console.log("body of articles/article_id", body);
         const { article } = body;
-        expect(typeof article[0].author).toBe("string");
-        expect(typeof article[0].title).toBe("string");
-        expect(typeof article[0].article_id).toBe("number");
-        expect(typeof article[0].body).toBe("string");
-        expect(typeof article[0].topic).toBe("string");
-        expect(typeof article[0].created_at).toBe("string");
-        expect(typeof article[0].votes).toBe("number");
-        expect(typeof article[0].article_img_url).toBe("string");
+        expect(typeof article.author).toBe("string");
+        expect(typeof article.title).toBe("string");
+        expect(typeof article.article_id).toBe("number");
+        expect(typeof article.body).toBe("string");
+        expect(typeof article.topic).toBe("string");
+        expect(typeof article.created_at).toBe("string");
+        expect(typeof article.votes).toBe("number");
+        expect(typeof article.article_img_url).toBe("string");
       });
   });
   test("GET 200: article returned corresponds to correct article_id", () => {
@@ -85,7 +84,7 @@ describe("/api/articles/:article_id", () => {
       .expect(200)
       .then(({ body }) => {
         const { article } = body;
-        const isCorrectArticle = article[0].article_id === 1 ? true : false;
+        const isCorrectArticle = article.article_id === 1 ? true : false;
         expect(isCorrectArticle).toBe(true);
       });
   });
@@ -95,6 +94,14 @@ describe("/api/articles/:article_id", () => {
       .expect(400)
       .then(({ body }) => {
         expect(body.msg).toBe("Invalid ID data type!");
+      });
+  });
+  test("404: returns error message when given input doesn't exist in database", () => {
+    return request(app)
+      .get("/api/articles/9999999")
+      .expect(404)
+      .then(({ body }) => {
+        expect(body.msg).toBe("Category ID not found!");
       });
   });
 });

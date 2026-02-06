@@ -8,16 +8,19 @@ const getAllArticles = async (req, res) => {
   return res.status(200).send({ articles: articles });
 };
 
-const getArticleID = async (req, res) => {
+const getArticleID = async (req, res, next) => {
   const { article_id } = req.params;
-
   const regex = /^\d+/;
   if (regex.test(article_id) === false) {
     return res.status(400).send({ msg: "Invalid ID data type!" });
   }
 
-  const articleID = await getArticleIDService(article_id);
-  return res.status(200).send({ article: articleID });
+  try {
+    const articleID = await getArticleIDService(article_id);
+    return res.status(200).send({ article: articleID });
+  } catch (err) {
+    next(err);
+  }
 };
 
 module.exports = { getAllArticles, getArticleID };

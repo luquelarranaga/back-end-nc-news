@@ -1,23 +1,19 @@
-const exportObject = require("../models/articles_model")
-const {fetchAllArticles} = exportObject
-const {fetchArticleID} = exportObject
+const exportObject = require("../models/articles_model");
+const { fetchAllArticles } = exportObject;
+const { fetchArticleID } = exportObject;
+const NotFoundError = require("../errors/NotFoundError");
 
 const getAllArticlesService = () => {
-    return fetchAllArticles();
-}
+  return fetchAllArticles();
+};
 
-const getArticleIDService = (article_id) => {
-    console.log("service article id: ", article_id, 2)
-    const regex = /^\d+/
-    if (regex.test(article_id)) {
-        return fetchArticleID(article_id);
-    } 
-    // else if (article_id === null) {
+const getArticleIDService = async (article_id) => {
+  const articleID = await fetchArticleID(article_id);
+  if (articleID === undefined) {
+    throw new NotFoundError("Category ID not found!");
+  } else {
+    return articleID;
+  }
+};
 
-    // } else if (article_id === undefined) {
-
-    // }
-
-}
-
-module.exports = {getAllArticlesService, getArticleIDService}
+module.exports = { getAllArticlesService, getArticleIDService };
