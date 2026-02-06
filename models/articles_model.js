@@ -20,8 +20,21 @@ const fetchArticleID = async (article_id) => {
   );
   //returns an object that contains keys such as body and rows. Rows contains the values we want
   const { rows } = result;
-  console.log("");
   return rows[0];
 };
 
-module.exports = { fetchAllArticles, fetchArticleID };
+const fetchArticleComments = async (article_id) => {
+  const result = await db.query(
+    `
+    SELECT * FROM comments`,
+    // [article_id],
+  );
+  console.log("result rows from fetchArticleCOmments >>>", result.rows);
+  const { rows } = result;
+  return rows;
+};
+module.exports = { fetchAllArticles, fetchArticleID, fetchArticleComments };
+
+// RIGHT JOIN articles
+//   ON articles.article_id = comments.article_id
+//   WHERE articles.article_id = $1

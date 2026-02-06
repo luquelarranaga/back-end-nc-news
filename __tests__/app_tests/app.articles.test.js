@@ -112,18 +112,26 @@ describe("/api/articles/:article_id", () => {
   });
 });
 
-// describe("/api/articles/:article_id/comments", () => {
-//   test("GET 200: ", () => {
-//     test("GET 200: responds with an object with a key of comments with a value of an array of comments", () => {});
-//     test("GET 200: every comment object contains the correct properties", () => {});
-//     test("GET 200: the returned comments correspond to the correct article_id", () => {});
-//     test("GET 200: responds with an object with a key of articles with a value of an object", () => {});
-//   });
-//   test("Errors: ", () => {
-//     test("returns error message when given wrong data type for comments", () => {});
-//     test("returns error message when given article_id doesn't exist in database", () => {});
-//   });
-// });
+describe("/api/articles/:article_id/comments", () => {
+  describe("GET 200: ", () => {
+    test("GET 200: responds with an object with a key of comments with a value of an array of comments", () => {
+      return request(app)
+        .get("/api/articles/1/comments")
+        .expect(200)
+        .then(({ body }) => {
+          expect(body).toBeObject();
+          expect(body.comments).toBeArray();
+        });
+    });
+    //   test("GET 200: every comment object contains the correct properties", () => {});
+    //   test("GET 200: the returned comments correspond to the correct article_id", () => {});
+    //   test("GET 200: responds with an object with a key of articles with a value of an object", () => {});
+    // });
+    // test("Errors: ", () => {
+    //   test("returns error message when given wrong data type for comments", () => {});
+    //   test("returns error message when given article_id doesn't exist in database", () => {});
+  });
+});
 
 describe("/api/invalid-path/", () => {
   test("404: invalid file path returns error message", () => {

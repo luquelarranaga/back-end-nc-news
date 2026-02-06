@@ -1,6 +1,7 @@
 const exportObject = require("../services/articles_service");
 const { getAllArticlesService } = exportObject;
 const { getArticleIDService } = exportObject;
+const { getArticleCommentsService } = exportObject;
 
 const getAllArticles = async (req, res) => {
   const articles = await getAllArticlesService();
@@ -23,4 +24,9 @@ const getArticleID = async (req, res, next) => {
   }
 };
 
-module.exports = { getAllArticles, getArticleID };
+const getArticleComments = async (req, res, next) => {
+  const { article_id } = req.params;
+  const comments = await getArticleCommentsService(article_id);
+  return res.status(200).send({ comments: comments });
+};
+module.exports = { getAllArticles, getArticleID, getArticleComments };

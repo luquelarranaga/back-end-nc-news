@@ -7,19 +7,19 @@ const NotFoundError = require("./errors/NotFoundError");
 const app = express();
 app.use(express.json());
 
-app.use("/api/topics", topicsRouter);
+//MIDDLEWARE CHAIN
 
 app.use("/api/articles", articlesRouter);
 
-app.use("/api/users", usersRouter);
+app.use("/api/topics", topicsRouter);
 
-app.use("/api/articles/:article_id", articlesRouter);
+app.use("/api/users", usersRouter);
 
 app.all("/*path", (req, res, next) => {
   return res.status(404).send({ msg: "Path not found!" });
 });
 
-//ERROR HANDLING
+//ERROR HANDLING MIDDLEWARE CHAIN
 app.use((err, req, res, next) => {
   if (err instanceof NotFoundError) {
     res.status(404).send({ msg: err.message });
