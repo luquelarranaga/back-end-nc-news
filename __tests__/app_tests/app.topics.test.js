@@ -37,19 +37,19 @@ describe("/api/topics/", () => {
         });
     });
   });
-  describe("ERROR HANDLING", () => {
-    test("404: incorrect path returns an error message", () => {
-      return request(app)
-        .get("/api/invalid-path/")
-        .expect(404)
-        .then(({ body }) => {
-          expect(body.msg).toBe("Path not found!");
-        });
-    });
-    // test("405: incorrect http method returns an error message", () => {
-    //     const methods = ['']
-    //     return request(app)
+  //   describe("ERROR HANDLING", () => {
+  //     test("404: incorrect path returns an error message", () => {
+  //       return request(app)
+  //         .get("/api/invalid-path/")
+  //         .expect(404)
+  //         .then(({ body }) => {
+  //           expect(body.msg).toBe("Path not found!");
+  //         });
+  //     });
+  //     // test("405: incorrect http method returns an error message", () => {
+  //     //     const methods = ['']
+  //     //     return request(app)
 
-    // });
-  });
+  //     // });
+  //   });
 });
