@@ -290,6 +290,16 @@ describe("PATCH: /api/articles/:article_id", () => {
           expect(article.article_id).toBe(1);
         });
     });
+    test("votes are updated correctly", () => {
+      return request(app)
+        .patch("/api/articles/1")
+        .send({ inc_votes: 5 })
+        .expect(201)
+        .then(({ body }) => {
+          const { article } = body;
+          expect(article.votes).toBe(105);
+        });
+    });
     //     describe("Errors: ", () => {
     //       test("400: returns error message when given wrong data type for article_id", () => {
     //         return request(app)
