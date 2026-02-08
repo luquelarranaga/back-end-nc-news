@@ -208,17 +208,16 @@ describe("POST: /api/articles/:article_id/comments", () => {
           expect(typeof comment.article_id).toBe("number");
         });
     });
-    // test("GET 200: the returned comments correspond to the correct article_id", () => {
-    //   return request(app)
-    //     .get("/api/articles/1/comments")
-    //     .expect(200)
-    //     .then(({ body }) => {
-    //       const { comments } = body;
-    //       comments.forEach((comment) => {
-    //         expect(comment.article_id).toBe(1);
-    //       });
-    //     });
-    // });
+    test("the returned comments correspond to the correct article_id", () => {
+      return request(app)
+        .post("/api/articles/1/comments")
+        .send({ username: "butter_bridge", body: "this is my comment" })
+        .expect(201)
+        .then(({ body }) => {
+          const { comment } = body;
+          expect(comment.article_id).toBe(1);
+        });
+    });
     //   test("GET 200: returns the correct number of comments per article", () => {
     //     return request(app)
     //       .get("/api/articles/1/comments")
