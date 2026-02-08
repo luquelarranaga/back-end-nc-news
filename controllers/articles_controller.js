@@ -60,8 +60,12 @@ const postArticleComment = async (req, res, next) => {
     return res.status(400).send({ msg: "Invalid ID data type!" });
   }
 
-  const comment = await addCommentService(newComment, article_id);
-  return res.status(201).send({ comment: comment });
+  try {
+    const comment = await addCommentService(newComment, article_id);
+    return res.status(201).send({ comment: comment });
+  } catch (err) {
+    next(err);
+  }
 };
 
 module.exports = {

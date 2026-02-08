@@ -45,31 +45,24 @@ const fetchArticleComments = async (article_id) => {
 };
 
 const insertComment = async (newComment, article_id) => {
-  // console.log("new comment has reached model layer>>>", newComment);
-  // console.log("username>>>", newComment.username);
-  // console.log("body>>>", newComment.body);
+  const articleExists = await doesArticleExist(article_id);
+  if (articleExists === false) {
+    throw new NotFoundError("Article ID not found!");
+  }
 
-  // const newComment = {
-  //   username: "maria",
-  //   body: "example body",
-  // };
-
-  try {
-    const result = await db.query(
-      `
+  const result = await db.query(
+    `
     INSERT INTO comments (article_id, body, votes, author, created_at)
     VALUES
     ($1, $2, 0, $3, CURRENT_TIMESTAMP)
     RETURNING *
     `,
-      [article_id, newComment.body, newComment.username],
-    );
-    const { rows } = result;
-    return rows[0];
-  } catch (err) {
-    console.log(err);
-  }
+    [article_id, newComment.body, newComment.username],
+  );
+  const { rows } = result;
+  return rows[0];
 };
+
 module.exports = {
   fetchAllArticles,
   fetchArticleID,

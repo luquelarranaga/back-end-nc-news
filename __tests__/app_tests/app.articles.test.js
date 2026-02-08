@@ -239,16 +239,14 @@ describe("POST: /api/articles/:article_id/comments", () => {
           });
       });
     });
-    //     test("404: returns error message when given article_id doesn't exist in database", () => {
-    //       return request(app)
-    //         .get("/api/articles/9999999/comments")
-    //         .expect(404)
-    //         .then(({ body }) => {
-    //           console.log("testing body>>> ", body);
-    //           expect(body.msg).toBe("Article ID not found!");
-    //         });
-    //     });
-    //
+    test("404: returns error message when given article_id doesn't exist in database", () => {
+      return request(app)
+        .get("/api/articles/9999999/comments")
+        .expect(404)
+        .then(({ body }) => {
+          expect(body.msg).toBe("Article ID not found!");
+        });
+    });
   });
 });
 
