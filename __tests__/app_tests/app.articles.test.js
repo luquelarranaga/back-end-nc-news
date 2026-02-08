@@ -182,7 +182,7 @@ describe("GET: /api/articles/:article_id/comments", () => {
 
 describe("POST: /api/articles/:article_id/comments", () => {
   describe("201: ", () => {
-    test("responds with an object", () => {
+    test("responds with a single object", () => {
       return request(app)
         .post("/api/articles/1/comments")
         .send({ username: "butter_bridge", body: "this is my comment" })
@@ -191,6 +191,7 @@ describe("POST: /api/articles/:article_id/comments", () => {
           //we receive the object of the response, which contains a body that is our inserted comment
           const { comment } = body;
           expect(comment).toBeObject();
+          expect(comment).not.toBeArray();
         });
     });
     test("every comment object contains the correct properties", () => {
@@ -218,15 +219,6 @@ describe("POST: /api/articles/:article_id/comments", () => {
           expect(comment.article_id).toBe(1);
         });
     });
-    //   test("GET 200: returns the correct number of comments per article", () => {
-    //     return request(app)
-    //       .get("/api/articles/1/comments")
-    //       .expect(200)
-    //       .then(({ body }) => {
-    //         const { comments } = body;
-    //         expect(comments.length).toBe(11);
-    //       });
-    //   });
     //   describe("Errors: ", () => {
     //     test("400: returns error message when given wrong data type for article_id", () => {
     //       return request(app)
