@@ -194,7 +194,7 @@ describe("POST: /api/articles/:article_id/comments", () => {
           expect(comment).not.toBeArray();
         });
     });
-    test("every comment object contains the correct properties", () => {
+    test("comment object contains the correct properties", () => {
       return request(app)
         .post("/api/articles/1/comments")
         .send({ username: "butter_bridge", body: "this is my comment" })
@@ -247,6 +247,77 @@ describe("POST: /api/articles/:article_id/comments", () => {
           expect(body.msg).toBe("Article ID not found!");
         });
     });
+  });
+});
+
+describe("PATCH: /api/articles/:article_id", () => {
+  describe("200: ", () => {
+    test("responds with a single object", () => {
+      return request(app)
+        .patch("/api/articles/1")
+        .send({ inc_votes: 5 })
+        .expect(201)
+        .then(({ body }) => {
+          const { article } = body;
+          expect(article).toBeObject();
+          expect(article).not.toBeArray();
+        });
+    });
+    test("article object contains the correct properties", () => {
+      return request(app)
+        .patch("/api/articles/1")
+        .send({ inc_votes: 5 })
+        .expect(201)
+        .then(({ body }) => {
+          const { article } = body;
+          expect(typeof article.author).toBe("string");
+          expect(typeof article.title).toBe("string");
+          expect(typeof article.article_id).toBe("number");
+          expect(typeof article.body).toBe("string");
+          expect(typeof article.topic).toBe("string");
+          expect(typeof article.created_at).toBe("string");
+          expect(typeof article.votes).toBe("number");
+          expect(typeof article.article_img_url).toBe("string");
+        });
+    });
+    test("the updated article corresponds to the correct article_id", () => {
+      return request(app)
+        .patch("/api/articles/1")
+        .send({ inc_votes: 5 })
+        .expect(201)
+        .then(({ body }) => {
+          const { article } = body;
+          expect(article.article_id).toBe(1);
+        });
+    });
+    //     describe("Errors: ", () => {
+    //       test("400: returns error message when given wrong data type for article_id", () => {
+    //         return request(app)
+    //           .post("/api/articles/jjska/comments")
+    //           .send({ username: "butter_bridge", body: "this is my comment" })
+    //           .expect(400)
+    //           .then(({ body }) => {
+    //             expect(body.msg).toBe("Invalid ID data type!");
+    //           });
+    //       });
+    //       test("400: returns error message when given comment object is missing username/body", () => {
+    //         return request(app)
+    //           .post("/api/articles/1/comments")
+    //           .send({ body: "butter_bridge" })
+    //           .expect(400)
+    //           .then(({ body }) => {
+    //             expect(body.msg).toBe("Invalid comment, missing username/body");
+    //           });
+    //       });
+    //     });
+    //     test("404: returns error message when given article_id doesn't exist in database", () => {
+    //       return request(app)
+    //         .get("/api/articles/9999999/comments")
+    //         .expect(404)
+    //         .then(({ body }) => {
+    //           expect(body.msg).toBe("Article ID not found!");
+    //         });
+    //     });
   });
 });
 

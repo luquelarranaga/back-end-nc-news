@@ -63,9 +63,31 @@ const insertComment = async (newComment, article_id) => {
   return rows[0];
 };
 
+const updateArticleVotes = async (votes, article_id) => {
+  console.log("made it to updateArticleVotes");
+
+  try {
+    const result = await db.query(
+      `
+      UPDATE articles
+      SET votes = votes + $1
+      WHERE article_id = $2
+      RETURNING *
+    `,
+      [votes.inc_votes, article_id.article_id],
+    );
+    const { rows } = result;
+    console.log("updated article hopefully?>>>", rows[0]);
+    return rows[0];
+  } catch (err) {
+    console.log("error is happening>>> ", err);
+  }
+};
+
 module.exports = {
   fetchAllArticles,
   fetchArticleID,
   fetchArticleComments,
   insertComment,
+  updateArticleVotes,
 };

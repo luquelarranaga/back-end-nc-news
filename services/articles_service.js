@@ -3,6 +3,7 @@ const { fetchAllArticles } = exportObject;
 const { fetchArticleID } = exportObject;
 const { fetchArticleComments } = exportObject;
 const { insertComment } = exportObject;
+const { updateArticleVotes } = exportObject;
 
 const NotFoundError = require("../errors/NotFoundError");
 
@@ -33,9 +34,16 @@ const addCommentService = async (newComment, article_id) => {
   const comment = await insertComment(newComment, article_id);
   return comment;
 };
+
+const updateVotesService = async (votes, article_id) => {
+  const updatedArticle = await updateArticleVotes(votes, article_id);
+  return updatedArticle;
+};
+
 module.exports = {
   getAllArticlesService,
   getArticleIDService,
   getArticleCommentsService,
   addCommentService,
+  updateVotesService,
 };
