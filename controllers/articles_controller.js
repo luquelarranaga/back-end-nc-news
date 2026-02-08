@@ -43,6 +43,11 @@ const getArticleComments = async (req, res, next) => {
 const postArticleComment = async (req, res, next) => {
   const newComment = req.body;
   const { article_id } = req.params;
+  const regex = /^\d+/;
+  if (regex.test(article_id) === false) {
+    return res.status(400).send({ msg: "Invalid ID data type!" });
+  }
+
   const comment = await addCommentService(newComment, article_id);
   return res.status(201).send({ comment: comment });
 };

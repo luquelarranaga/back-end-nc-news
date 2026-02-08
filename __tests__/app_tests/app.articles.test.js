@@ -219,15 +219,17 @@ describe("POST: /api/articles/:article_id/comments", () => {
           expect(comment.article_id).toBe(1);
         });
     });
-    //   describe("Errors: ", () => {
-    //     test("400: returns error message when given wrong data type for article_id", () => {
-    //       return request(app)
-    //         .get("/api/articles/jjska/comments")
-    //         .expect(400)
-    //         .then(({ body }) => {
-    //           expect(body.msg).toBe("Invalid ID data type!");
-    //         });
-    //     });
+    describe("Errors: ", () => {
+      test("400: returns error message when given wrong data type for article_id", () => {
+        return request(app)
+          .post("/api/articles/jjska/comments")
+          .send({ username: "butter_bridge", body: "this is my comment" })
+          .expect(400)
+          .then(({ body }) => {
+            expect(body.msg).toBe("Invalid ID data type!");
+          });
+      });
+    });
     //     test("404: returns error message when given article_id doesn't exist in database", () => {
     //       return request(app)
     //         .get("/api/articles/9999999/comments")
@@ -237,7 +239,7 @@ describe("POST: /api/articles/:article_id/comments", () => {
     //           expect(body.msg).toBe("Article ID not found!");
     //         });
     //     });
-    //   });
+    //
   });
 });
 
