@@ -2,6 +2,7 @@ const express = require("express");
 const topicsRouter = require("./routers/topic_routes");
 const articlesRouter = require("./routers/articles_routes");
 const usersRouter = require("./routers/users_routes");
+const commentsRouter = require("./routers/comments_routes");
 const NotFoundError = require("./errors/NotFoundError");
 
 const app = express();
@@ -10,6 +11,8 @@ app.use(express.json());
 //MIDDLEWARE CHAIN
 
 app.use("/api/articles", articlesRouter);
+
+app.use("/api/comments", commentsRouter);
 
 app.use("/api/topics", topicsRouter);
 
