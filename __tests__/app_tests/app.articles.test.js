@@ -193,33 +193,32 @@ describe("POST: /api/articles/:article_id/comments", () => {
           expect(comment).toBeObject();
         });
     });
-    //   test("GET 200: every comment object contains the correct properties", () => {
-    //     return request(app)
-    //       .get("/api/articles/1/comments")
-    //       .expect(200)
-    //       .then(({ body }) => {
-    //         const { comments } = body;
-    //         comments.forEach((comment) => {
-    //           expect(typeof comment.comment_id).toBe("number");
-    //           expect(typeof comment.votes).toBe("number");
-    //           expect(typeof comment.created_at).toBe("string");
-    //           expect(typeof comment.author).toBe("string");
-    //           expect(typeof comment.body).toBe("string");
-    //           expect(typeof comment.article_id).toBe("number");
-    //         });
+    test("every comment object contains the correct properties", () => {
+      return request(app)
+        .post("/api/articles/1/comments")
+        .send({ username: "butter_bridge", body: "this is my comment" })
+        .expect(201)
+        .then(({ body }) => {
+          const { comment } = body;
+          expect(typeof comment.comment_id).toBe("number");
+          expect(typeof comment.votes).toBe("number");
+          expect(typeof comment.created_at).toBe("string");
+          expect(typeof comment.author).toBe("string");
+          expect(typeof comment.body).toBe("string");
+          expect(typeof comment.article_id).toBe("number");
+        });
+    });
+    // test("GET 200: the returned comments correspond to the correct article_id", () => {
+    //   return request(app)
+    //     .get("/api/articles/1/comments")
+    //     .expect(200)
+    //     .then(({ body }) => {
+    //       const { comments } = body;
+    //       comments.forEach((comment) => {
+    //         expect(comment.article_id).toBe(1);
     //       });
-    //   });
-    //   test("GET 200: the returned comments correspond to the correct article_id", () => {
-    //     return request(app)
-    //       .get("/api/articles/1/comments")
-    //       .expect(200)
-    //       .then(({ body }) => {
-    //         const { comments } = body;
-    //         comments.forEach((comment) => {
-    //           expect(comment.article_id).toBe(1);
-    //         });
-    //       });
-    //   });
+    //     });
+    // });
     //   test("GET 200: returns the correct number of comments per article", () => {
     //     return request(app)
     //       .get("/api/articles/1/comments")
