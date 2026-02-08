@@ -241,7 +241,8 @@ describe("POST: /api/articles/:article_id/comments", () => {
     });
     test("404: returns error message when given article_id doesn't exist in database", () => {
       return request(app)
-        .get("/api/articles/9999999/comments")
+        .post("/api/articles/9999999/comments")
+        .send({ username: "butter_bridge", body: "this is my comment" })
         .expect(404)
         .then(({ body }) => {
           expect(body.msg).toBe("Article ID not found!");
@@ -300,36 +301,39 @@ describe("PATCH: /api/articles/:article_id", () => {
           expect(article.votes).toBe(105);
         });
     });
-    //     describe("Errors: ", () => {
-    //       test("400: returns error message when given wrong data type for article_id", () => {
-    //         return request(app)
-    //           .post("/api/articles/jjska/comments")
-    //           .send({ username: "butter_bridge", body: "this is my comment" })
-    //           .expect(400)
-    //           .then(({ body }) => {
-    //             expect(body.msg).toBe("Invalid ID data type!");
-    //           });
-    //       });
-    //       test("400: returns error message when given comment object is missing username/body", () => {
-    //         return request(app)
-    //           .post("/api/articles/1/comments")
-    //           .send({ body: "butter_bridge" })
-    //           .expect(400)
-    //           .then(({ body }) => {
-    //             expect(body.msg).toBe("Invalid comment, missing username/body");
-    //           });
-    //       });
-    //     });
-    //     test("404: returns error message when given article_id doesn't exist in database", () => {
-    //       return request(app)
-    //         .get("/api/articles/9999999/comments")
-    //         .expect(404)
-    //         .then(({ body }) => {
-    //           expect(body.msg).toBe("Article ID not found!");
-    //         });
-    //     });
+    describe("Errors: ", () => {
+      test("400: returns error message when given wrong data type for article_id", () => {
+        return request(app)
+          .patch("/api/articles/jjska")
+          .send({ inc_votes: 5 })
+          .expect(400)
+          .then(({ body }) => {
+            expect(body.msg).toBe("Invalid ID data type!");
+          });
+      });
+      test("400: returns error message when given votes object is missing inc_votes property", () => {
+        return request(app)
+          .patch("/api/articles/1")
+          .send({})
+          .expect(400)
+          .then(({ body }) => {
+            expect(body.msg).toBe("Invalid vote, missing inc_votes");
+          });
+      });
+      test("404: returns error message when given article_id doesn't exist in database", () => {
+        return request(app)
+          .patch("/api/articles/9999999")
+          .send({ inc_votes: 5 })
+          .expect(404)
+          .then(({ body }) => {
+            expect(body.msg).toBe("Article ID not found!");
+          });
+      });
+    });
   });
 });
+
+///am i repeating tests??? feels very repetive, but not sure if they're technically different since they fall under patch??
 
 describe("/api/invalid-path/", () => {
   test("404: invalid file path returns error message", () => {

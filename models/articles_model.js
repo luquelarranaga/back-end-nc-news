@@ -64,7 +64,10 @@ const insertComment = async (newComment, article_id) => {
 };
 
 const updateArticleVotes = async (votes, article_id) => {
-  console.log("made it to updateArticleVotes");
+  const articleExists = await doesArticleExist(article_id);
+  if (articleExists === false) {
+    throw new NotFoundError("Article ID not found!");
+  }
 
   try {
     const result = await db.query(
@@ -74,13 +77,12 @@ const updateArticleVotes = async (votes, article_id) => {
       WHERE article_id = $2
       RETURNING *
     `,
-      [votes.inc_votes, article_id.article_id],
+      [votes.inc_votes, article_id],
     );
     const { rows } = result;
-    console.log("updated article hopefully?>>>", rows[0]);
     return rows[0];
   } catch (err) {
-    console.log("error is happening>>> ", err);
+    console.log(err);
   }
 };
 
