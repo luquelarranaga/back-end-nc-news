@@ -229,6 +229,15 @@ describe("POST: /api/articles/:article_id/comments", () => {
             expect(body.msg).toBe("Invalid ID data type!");
           });
       });
+      test("400: returns error message when given comment object is missing username/body", () => {
+        return request(app)
+          .post("/api/articles/1/comments")
+          .send({ body: "butter_bridge" })
+          .expect(400)
+          .then(({ body }) => {
+            expect(body.msg).toBe("Invalid comment, missing username/body");
+          });
+      });
     });
     //     test("404: returns error message when given article_id doesn't exist in database", () => {
     //       return request(app)

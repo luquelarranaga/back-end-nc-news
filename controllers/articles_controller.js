@@ -42,6 +42,18 @@ const getArticleComments = async (req, res, next) => {
 
 const postArticleComment = async (req, res, next) => {
   const newComment = req.body;
+  const commentKeys = Object.keys(newComment);
+  console.log("comment keys >>>", JSON.stringify(commentKeys));
+  if (
+    commentKeys.includes("username") === false ||
+    commentKeys.includes("body") === false ||
+    commentKeys.length !== 2
+  ) {
+    return res
+      .status(400)
+      .send({ msg: "Invalid comment, missing username/body" });
+  }
+
   const { article_id } = req.params;
   const regex = /^\d+/;
   if (regex.test(article_id) === false) {
