@@ -2,7 +2,7 @@ const createLookUpObject = require("../db/seeds/utils");
 const doesArticleExist = require("../utils/doesArticleExist");
 const doesCommentExist = require("../utils/doesCommentExist");
 
-describe.skip("createLookUpObject", () => {
+describe("createLookUpObject", () => {
   test("does not mutate original input array", () => {
     const inputArray = [{ name: "hey", age: 2 }];
     const inputArrayClone = JSON.parse(JSON.stringify(inputArray));
