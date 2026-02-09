@@ -73,7 +73,7 @@ const patchArticleVotes = async (req, res, next) => {
 
   const votesKeys = Object.keys(votes);
   if (votesKeys.includes("inc_votes") === false || votesKeys.length !== 1) {
-    throw new InvalidInputError("Invalid comment!");
+    throw new InvalidInputError("Invalid vote");
   }
 
   const regex = /^\d+/;

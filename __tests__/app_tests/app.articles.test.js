@@ -12,7 +12,7 @@ afterAll(() => {
   return db.end;
 });
 
-describe("GET: /api/articles/", () => {
+describe("/api/articles/", () => {
   describe("GET 200", () => {
     test("responds with an object with a key of articles with a value of an array of objects", () => {
       return request(app)
@@ -54,7 +54,7 @@ describe("GET: /api/articles/", () => {
   });
 });
 
-describe("GET: /api/articles/:article_id", () => {
+describe("/api/articles/:article_id", () => {
   describe("GET 200", () => {
     test("responds with an object with a key of articles with a value of an object", () => {
       return request(app)
@@ -92,167 +92,7 @@ describe("GET: /api/articles/:article_id", () => {
         });
     });
   });
-  describe("Errors", () => {
-    test("400: returns error message when given wrong data type for article_id", () => {
-      return request(app)
-        .get("/api/articles/sjaks")
-        .expect(400)
-        .then(({ body }) => {
-          expect(body.msg).toBe("Invalid ID data type!");
-        });
-    });
-    test("404: returns error message when given input doesn't exist in database", () => {
-      return request(app)
-        .get("/api/articles/9999999")
-        .expect(404)
-        .then(({ body }) => {
-          expect(body.msg).toBe("Category ID not found!");
-        });
-    });
-  });
-});
-
-describe("GET: /api/articles/:article_id/comments", () => {
-  describe("200: ", () => {
-    test("responds with an object with a key of comments with a value of an array of comments", () => {
-      return request(app)
-        .get("/api/articles/1/comments")
-        .expect(200)
-        .then(({ body }) => {
-          expect(body).toBeObject();
-          expect(body.comments).toBeArray();
-        });
-    });
-    test("every comment object contains the correct properties", () => {
-      return request(app)
-        .get("/api/articles/1/comments")
-        .expect(200)
-        .then(({ body }) => {
-          const { comments } = body;
-          comments.forEach((comment) => {
-            expect(typeof comment.comment_id).toBe("number");
-            expect(typeof comment.votes).toBe("number");
-            expect(typeof comment.created_at).toBe("string");
-            expect(typeof comment.author).toBe("string");
-            expect(typeof comment.body).toBe("string");
-            expect(typeof comment.article_id).toBe("number");
-          });
-        });
-    });
-    test("the returned comments correspond to the correct article_id", () => {
-      return request(app)
-        .get("/api/articles/1/comments")
-        .expect(200)
-        .then(({ body }) => {
-          const { comments } = body;
-          comments.forEach((comment) => {
-            expect(comment.article_id).toBe(1);
-          });
-        });
-    });
-    test("returns the correct number of comments per article", () => {
-      return request(app)
-        .get("/api/articles/1/comments")
-        .expect(200)
-        .then(({ body }) => {
-          const { comments } = body;
-          expect(comments.length).toBe(11);
-        });
-    });
-    describe("Errors: ", () => {
-      test("400: returns error message when given wrong data type for article_id", () => {
-        return request(app)
-          .get("/api/articles/jjska/comments")
-          .expect(400)
-          .then(({ body }) => {
-            expect(body.msg).toBe("Invalid ID data type!");
-          });
-      });
-      test("404: returns error message when given article_id doesn't exist in database", () => {
-        return request(app)
-          .get("/api/articles/9999999/comments")
-          .expect(404)
-          .then(({ body }) => {
-            expect(body.msg).toBe("Article ID not found!");
-          });
-      });
-    });
-  });
-});
-
-describe("POST: /api/articles/:article_id/comments", () => {
-  describe("201: ", () => {
-    test("responds with a single object", () => {
-      return request(app)
-        .post("/api/articles/1/comments")
-        .send({ username: "butter_bridge", body: "this is my comment" })
-        .expect(201)
-        .then(({ body }) => {
-          //we receive the object of the response, which contains a body that is our inserted comment
-          const { comment } = body;
-          expect(comment).toBeObject();
-          expect(comment).not.toBeArray();
-        });
-    });
-    test("comment object contains the correct properties", () => {
-      return request(app)
-        .post("/api/articles/1/comments")
-        .send({ username: "butter_bridge", body: "this is my comment" })
-        .expect(201)
-        .then(({ body }) => {
-          const { comment } = body;
-          expect(typeof comment.comment_id).toBe("number");
-          expect(typeof comment.votes).toBe("number");
-          expect(typeof comment.created_at).toBe("string");
-          expect(typeof comment.author).toBe("string");
-          expect(typeof comment.body).toBe("string");
-          expect(typeof comment.article_id).toBe("number");
-        });
-    });
-    test("the returned comments correspond to the correct article_id", () => {
-      return request(app)
-        .post("/api/articles/1/comments")
-        .send({ username: "butter_bridge", body: "this is my comment" })
-        .expect(201)
-        .then(({ body }) => {
-          const { comment } = body;
-          expect(comment.article_id).toBe(1);
-        });
-    });
-    describe("Errors: ", () => {
-      test("400: returns error message when given wrong data type for article_id", () => {
-        return request(app)
-          .post("/api/articles/jjska/comments")
-          .send({ username: "butter_bridge", body: "this is my comment" })
-          .expect(400)
-          .then(({ body }) => {
-            expect(body.msg).toBe("Invalid ID data type!");
-          });
-      });
-      test("400: returns error message when given comment object is missing username/body", () => {
-        return request(app)
-          .post("/api/articles/1/comments")
-          .send({ body: "butter_bridge" })
-          .expect(400)
-          .then(({ body }) => {
-            expect(body.msg).toBe("Invalid comment, missing username/body");
-          });
-      });
-    });
-    test("404: returns error message when given article_id doesn't exist in database", () => {
-      return request(app)
-        .post("/api/articles/9999999/comments")
-        .send({ username: "butter_bridge", body: "this is my comment" })
-        .expect(404)
-        .then(({ body }) => {
-          expect(body.msg).toBe("Article ID not found!");
-        });
-    });
-  });
-});
-
-describe("PATCH: /api/articles/:article_id", () => {
-  describe("200: ", () => {
+  describe("PATCH 200: ", () => {
     test("responds with a single object", () => {
       return request(app)
         .patch("/api/articles/1")
@@ -301,29 +141,184 @@ describe("PATCH: /api/articles/:article_id", () => {
           expect(article.votes).toBe(105);
         });
     });
-    describe("Errors: ", () => {
-      test("400: returns error message when given wrong data type for article_id", () => {
+  });
+  describe("ERROR 400", () => {
+    test("returns error message trying to get article with invalid article id", () => {
+      return request(app)
+        .get("/api/articles/sjaks")
+        .expect(400)
+        .send()
+        .then(({ body }) => {
+          expect(body.msg).toBe("Invalid article id!");
+        });
+    });
+    test("returns error message trying to patch article with invalid article id", () => {
+      return request(app)
+        .patch("/api/articles/sjaks")
+        .expect(400)
+        .send({ inc_votes: 5 })
+        .then(({ body }) => {
+          expect(body.msg).toBe("Invalid article id!");
+        });
+    });
+    test("400: returns error message when provided invalid vote object", () => {
+      return request(app)
+        .patch("/api/articles/1")
+        .send({})
+        .expect(400)
+        .then(({ body }) => {
+          expect(body.msg).toBe("Invalid vote");
+        });
+    });
+  });
+  describe("ERROR 404", () => {
+    test("returns error message when attempting to get an article id that doesn't exist in database", () => {
+      return request(app)
+        .get("/api/articles/9999999")
+        .expect(404)
+        .then(({ body }) => {
+          expect(body.msg).toBe("Article ID not found!");
+        });
+    });
+    test("returns error message when attempting to patch an article id that doesn't exist in database", () => {
+      return request(app)
+        .patch("/api/articles/9999999")
+        .send({ inc_votes: 5 })
+        .expect(404)
+        .then(({ body }) => {
+          expect(body.msg).toBe("Article ID not found!");
+        });
+    });
+  });
+});
+
+describe("/api/articles/:article_id/comments", () => {
+  describe("GET 200: ", () => {
+    test("responds with an object with a key of comments with a value of an array of comments", () => {
+      return request(app)
+        .get("/api/articles/1/comments")
+        .expect(200)
+        .then(({ body }) => {
+          expect(body).toBeObject();
+          expect(body.comments).toBeArray();
+        });
+    });
+    test("every comment object contains the correct properties", () => {
+      return request(app)
+        .get("/api/articles/1/comments")
+        .expect(200)
+        .then(({ body }) => {
+          const { comments } = body;
+          comments.forEach((comment) => {
+            expect(typeof comment.comment_id).toBe("number");
+            expect(typeof comment.votes).toBe("number");
+            expect(typeof comment.created_at).toBe("string");
+            expect(typeof comment.author).toBe("string");
+            expect(typeof comment.body).toBe("string");
+            expect(typeof comment.article_id).toBe("number");
+          });
+        });
+    });
+    test("the returned comments correspond to the correct article_id", () => {
+      return request(app)
+        .get("/api/articles/1/comments")
+        .expect(200)
+        .then(({ body }) => {
+          const { comments } = body;
+          comments.forEach((comment) => {
+            expect(comment.article_id).toBe(1);
+          });
+        });
+    });
+    test("returns the correct number of comments per article", () => {
+      return request(app)
+        .get("/api/articles/1/comments")
+        .expect(200)
+        .then(({ body }) => {
+          const { comments } = body;
+          expect(comments.length).toBe(11);
+        });
+    });
+  });
+  describe("POST 201", () => {
+    test("responds with a single object", () => {
+      return request(app)
+        .post("/api/articles/1/comments")
+        .send({ username: "butter_bridge", body: "this is my comment" })
+        .expect(201)
+        .then(({ body }) => {
+          //we receive the object of the response, which contains a body that is our inserted comment
+          const { comment } = body;
+          expect(comment).toBeObject();
+          expect(comment).not.toBeArray();
+        });
+    });
+    test("comment object contains the correct properties", () => {
+      return request(app)
+        .post("/api/articles/1/comments")
+        .send({ username: "butter_bridge", body: "this is my comment" })
+        .expect(201)
+        .then(({ body }) => {
+          const { comment } = body;
+          expect(typeof comment.comment_id).toBe("number");
+          expect(typeof comment.votes).toBe("number");
+          expect(typeof comment.created_at).toBe("string");
+          expect(typeof comment.author).toBe("string");
+          expect(typeof comment.body).toBe("string");
+          expect(typeof comment.article_id).toBe("number");
+        });
+    });
+    test("the returned comments correspond to the correct article_id", () => {
+      return request(app)
+        .post("/api/articles/1/comments")
+        .send({ username: "butter_bridge", body: "this is my comment" })
+        .expect(201)
+        .then(({ body }) => {
+          const { comment } = body;
+          expect(comment.article_id).toBe(1);
+        });
+    });
+  });
+  describe("ERROR 400: ", () => {
+    test("returns error message when getting comment with invalid article_id", () => {
+      return request(app)
+        .get("/api/articles/jjska/comments")
+        .expect(400)
+        .then(({ body }) => {
+          expect(body.msg).toBe("Invalid article id!");
+        });
+    });
+    test("returns error message when posting comment with invalid article_id", () => {
+      return request(app)
+        .post("/api/articles/jjska/comments")
+        .send({ username: "butter_bridge", body: "this is my comment" })
+        .expect(400)
+        .then(({ body }) => {
+          expect(body.msg).toBe("Invalid article id!");
+        });
+    });
+    test("returns error message when posting comment with invalid comment", () => {
+      return request(app)
+        .post("/api/articles/1/comments")
+        .send({ body: "butter_bridge" })
+        .expect(400)
+        .then(({ body }) => {
+          expect(body.msg).toBe("Invalid comment!");
+        });
+    });
+    describe("ERROR 404:", () => {
+      test("returns error message getting a comment with an article_id that doesn't exist in database", () => {
         return request(app)
-          .patch("/api/articles/jjska")
-          .send({ inc_votes: 5 })
-          .expect(400)
+          .get("/api/articles/9999999/comments")
+          .expect(404)
           .then(({ body }) => {
-            expect(body.msg).toBe("Invalid ID data type!");
+            expect(body.msg).toBe("Article ID not found!");
           });
       });
-      test("400: returns error message when given votes object is missing inc_votes property", () => {
+      test("returns error message posting a comment with an article_id that doesn't exist in database", () => {
         return request(app)
-          .patch("/api/articles/1")
-          .send({})
-          .expect(400)
-          .then(({ body }) => {
-            expect(body.msg).toBe("Invalid vote, missing inc_votes");
-          });
-      });
-      test("404: returns error message when given article_id doesn't exist in database", () => {
-        return request(app)
-          .patch("/api/articles/9999999")
-          .send({ inc_votes: 5 })
+          .post("/api/articles/9999999/comments")
+          .send({ username: "butter_bridge", body: "this is my comment" })
           .expect(404)
           .then(({ body }) => {
             expect(body.msg).toBe("Article ID not found!");
@@ -332,8 +327,6 @@ describe("PATCH: /api/articles/:article_id", () => {
     });
   });
 });
-
-///am i repeating tests??? feels very repetive, but not sure if they're technically different since they fall under patch??
 
 describe("/api/invalid-path/", () => {
   test("404: invalid file path returns error message", () => {
@@ -345,10 +338,3 @@ describe("/api/invalid-path/", () => {
       });
   });
 });
-
-//do method tests at the end ?
-// - id is either wrong data type(400 (bad request), could send msg "invalid id type")
-// - id not available in the db (404 (not found), could send back a message of "ID not found")
-// 	- the id would return as undefined
-// - typo within the rest of the path (400 (bad request), could send msg "path not found")
-// - incorrect http method invoked (405 (method not allowed), "method not allowed")
