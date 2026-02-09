@@ -1,4 +1,6 @@
 const createLookUpObject = require("../db/seeds/utils");
+const doesArticleExist = require("../utils/doesArticleExist");
+const doesCommentExist = require("../utils/doesCommentExist");
 
 describe.skip("createLookUpObject", () => {
   test("does not mutate original input array", () => {
@@ -57,5 +59,41 @@ describe.skip("createLookUpObject", () => {
       return valueName === array[0][value];
     });
     expect(correctValues).toBe(true);
+  });
+});
+
+describe("doesArticleExist", () => {
+  test("returns a boolean", async () => {
+    const articleID = 1;
+    const result = await doesArticleExist(articleID);
+    expect(result).toBeBoolean();
+  });
+  test("returns true when the article id doesn't exist in the database", async () => {
+    const articleID = 1;
+    const result = await doesArticleExist(articleID);
+    expect(result).toBe(true);
+  });
+  test("returns false when the article id doesn't exist in the database", async () => {
+    const articleID = 9999;
+    const result = await doesArticleExist(articleID);
+    expect(result).toBe(false);
+  });
+});
+
+describe("doesCommentExist", () => {
+  test("returns a boolean", async () => {
+    const commentID = 1;
+    const result = await doesCommentExist(commentID);
+    expect(result).toBeBoolean();
+  });
+  test("returns true when the article id doesn't exist in the database", async () => {
+    const commentID = 1;
+    const result = await doesCommentExist(commentID);
+    expect(result).toBe(true);
+  });
+  test("returns false when the article id doesn't exist in the database", async () => {
+    const commentID = 9999;
+    const result = await doesCommentExist(commentID);
+    expect(result).toBe(false);
   });
 });
