@@ -22,6 +22,7 @@ const fetchAllArticles = async (sort_by, order, topic) => {
         ORDER BY articles.`;
 
   queryStr += sort_by + " " + order.toUpperCase();
+  console.log("query string is>>>", queryStr);
 
   const result = await db.query(queryStr);
   const { rows } = result;

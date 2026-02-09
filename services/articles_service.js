@@ -12,12 +12,13 @@ const isTopicValid = require("../utils/isTopicValid");
 const InvalidInputError = require("../errors/InvalidInputError");
 
 const getAllArticlesService = async (query) => {
-  let { order = "desc", sort_by = "created_at", topic } = query;
+  let { order = "desc", sort_by = "created_at", topic = null } = query;
 
-  if (
-    (isSortByValid(sort_by) && isOrderValid(order)) ||
-    (await isTopicValid(topic))
-  ) {
+  const topicValidity = await isTopicValid(topic);
+
+  if (topicValidity === false) {
+    throw new InvalidInputError("Invalid query");
+  } else if (isSortByValid(sort_by) && isOrderValid(order)) {
     return await fetchAllArticles(sort_by, order, topic);
   } else {
     throw new InvalidInputError("Invalid query");

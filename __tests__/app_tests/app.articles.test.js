@@ -97,6 +97,14 @@ describe("/api/articles/", () => {
             expect(body.msg).toBe("Invalid query");
           });
       });
+      test("returns error message when invalid value passed into topic query", () => {
+        return request(app)
+          .get("/api/articles?topic=vegetable")
+          .expect(400)
+          .then(({ body }) => {
+            expect(body.msg).toBe("Invalid query");
+          });
+      });
     });
   });
 });
