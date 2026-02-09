@@ -19,4 +19,14 @@ describe("/api/comments/:comments", () => {
       await request(app).get("/api/comments/1").expect(404);
     });
   });
+  describe("ERROR: ", () => {
+    test("responds with error message when no comment_id provided ", async () => {
+      await request(app)
+        .delete("/api/comments/")
+        .expect(404)
+        .then(({ body }) => {
+          expect(body.msg).toBe("Path not found!");
+        });
+    });
+  });
 });
