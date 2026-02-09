@@ -7,6 +7,7 @@ const NotFoundError = require("./errors/NotFoundError");
 const InvalidInputError = require("./errors/InvalidInputError");
 
 const app = express();
+
 app.use(express.json());
 
 //MIDDLEWARE CHAIN
@@ -20,6 +21,7 @@ app.use("/api/topics", topicsRouter);
 app.use("/api/users", usersRouter);
 
 app.all("/*path", (req, res, next) => {
+  console.log("I'm iin 404 error");
   return res.status(404).send({ msg: "Path not found!" });
 });
 

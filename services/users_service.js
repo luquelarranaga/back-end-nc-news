@@ -1,7 +1,7 @@
-const fetchAllUsers = require("../models/users_model")
+const fetchAllUsers = require("../models/users_model");
 
 const getAllUsersService = () => {
-    return fetchAllUsers();
-}
+  return fetchAllUsers();
+};
 
 module.exports = getAllUsersService;

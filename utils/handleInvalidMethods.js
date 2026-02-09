@@ -1,5 +1,5 @@
 function handleInvalidMethods(req, res, next) {
-  res.status(405).send({ msg: "Method not allowed" });
+  return res.status(405).send({ msg: "Method not allowed" });
 }
 
 module.exports = handleInvalidMethods;

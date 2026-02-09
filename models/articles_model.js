@@ -2,18 +2,26 @@ const db = require("../db/connection");
 const checkArticleIdExists = require("../utils/doesArticleExist");
 const NotFoundError = require("../errors/NotFoundError");
 const doesArticleExist = require("../utils/doesArticleExist");
+const isSortByValid = require("../utils/isSortByValid");
 
-const fetchAllArticles = async () => {
-  const result = await db.query(`
-        SELECT articles.author, articles.title, articles.article_id, articles.topic, articles.created_at, articles.votes, articles.article_img_url, CAST(COUNT(comments) AS int) AS total_comments 
+const fetchAllArticles = async (sort_by, order) => {
+  let queryStr = `SELECT articles.author, articles.title, articles.article_id, articles.topic, articles.created_at, articles.votes, articles.article_img_url, CAST(COUNT(comments) AS int) AS total_comments 
         FROM articles
         LEFT JOIN comments
         ON articles.article_id = comments.article_id
-        GROUP BY articles.article_id;
-        `);
-  //returns an object that contains keys such as body and rows. Rows contains the values we want
+        GROUP BY articles.article_id
+        ORDER BY articles.`;
+
+  queryStr += sort_by + " " + order.toUpperCase();
+
+  const result = await db.query(queryStr);
   const { rows } = result;
+  console.log("rows in model layer>>", rows);
   return rows;
+
+  //returns an object that contains keys such as body and rows. Rows contains the values we want
+  // const { rows } = result;
+  // return rows;
 };
 
 const fetchArticleID = async (article_id) => {

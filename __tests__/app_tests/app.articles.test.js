@@ -51,6 +51,24 @@ describe("/api/articles/", () => {
           });
         });
     });
+    test("articles are returned sorted in descending value when one column is passed in", () => {
+      return request(app)
+        .get("/api/articles?sort_by=author")
+        .expect(200)
+        .then(({ body }) => {
+          const { articles } = body;
+          expect(articles).toBeSortedBy("author", { descending: true });
+        });
+    });
+    test("articles are returned in ascending order is specified ", () => {
+      return request(app)
+        .get("/api/articles?order=asc")
+        .expect(200)
+        .then(({ body }) => {
+          const { articles } = body;
+          expect(articles).toBeSorted({ ascending: true });
+        });
+    });
   });
 });
 

@@ -6,10 +6,16 @@ const { getArticleCommentsService } = exportObject;
 const { addCommentService } = exportObject;
 const { updateVotesService } = exportObject;
 
-const getAllArticles = async (req, res) => {
-  const articles = await getAllArticlesService();
-
-  return res.status(200).send({ articles: articles });
+const getAllArticles = async (req, res, next) => {
+  const query = req.query;
+  console.log(req.query);
+  try {
+    const articles = await getAllArticlesService(query);
+    return res.status(200).send({ articles: articles });
+  } catch (err) {
+    console.log("error in controller>>>", err);
+    next(err);
+  }
 };
 
 const getArticleID = async (req, res, next) => {

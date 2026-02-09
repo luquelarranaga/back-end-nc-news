@@ -1,6 +1,11 @@
 const createLookUpObject = require("../db/seeds/utils");
 const doesArticleExist = require("../utils/doesArticleExist");
 const doesCommentExist = require("../utils/doesCommentExist");
+const db = require("../db/connection");
+
+afterAll(async () => {
+  await db.end();
+});
 
 describe("createLookUpObject", () => {
   test("does not mutate original input array", () => {

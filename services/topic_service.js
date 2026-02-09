@@ -1,8 +1,7 @@
-const fetchAllTopics = require("../models/topics_model")
+const fetchAllTopics = require("../models/topics_model");
 
 const getAllTopicsService = () => {
-    return fetchAllTopics();
-}
+  return fetchAllTopics();
+};
 
 module.exports = getAllTopicsService;
-
