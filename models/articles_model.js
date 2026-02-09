@@ -4,7 +4,16 @@ const NotFoundError = require("../errors/NotFoundError");
 const doesArticleExist = require("../utils/doesArticleExist");
 const isSortByValid = require("../utils/isSortByValid");
 
-const fetchAllArticles = async (sort_by, order) => {
+const fetchAllArticles = async (sort_by, order, topic) => {
+  console.log("topic in model>>", topic);
+  if (topic) {
+    const result = await db.query(`SELECT * FROM articles WHERE topic = $1`, [
+      topic,
+    ]);
+    const { rows } = result;
+    return rows;
+  }
+
   let queryStr = `SELECT articles.author, articles.title, articles.article_id, articles.topic, articles.created_at, articles.votes, articles.article_img_url, CAST(COUNT(comments) AS int) AS total_comments 
         FROM articles
         LEFT JOIN comments
@@ -16,7 +25,6 @@ const fetchAllArticles = async (sort_by, order) => {
 
   const result = await db.query(queryStr);
   const { rows } = result;
-  console.log("rows in model layer>>", rows);
   return rows;
 
   //returns an object that contains keys such as body and rows. Rows contains the values we want

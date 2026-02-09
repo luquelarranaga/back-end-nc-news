@@ -8,13 +8,17 @@ const { updateArticleVotes } = exportObject;
 const NotFoundError = require("../errors/NotFoundError");
 const isSortByValid = require("../utils/isSortByValid");
 const isOrderValid = require("../utils/isOrderValid");
+const isTopicValid = require("../utils/isTopicValid");
 const InvalidInputError = require("../errors/InvalidInputError");
 
 const getAllArticlesService = async (query) => {
-  let { order = "desc", sort_by = "created_at" } = query;
+  let { order = "desc", sort_by = "created_at", topic } = query;
 
-  if (isSortByValid(sort_by) && isOrderValid(order)) {
-    return await fetchAllArticles(sort_by, order);
+  if (
+    (isSortByValid(sort_by) && isOrderValid(order)) ||
+    (await isTopicValid(topic))
+  ) {
+    return await fetchAllArticles(sort_by, order, topic);
   } else {
     throw new InvalidInputError("Invalid query");
   }
