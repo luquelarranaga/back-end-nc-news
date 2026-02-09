@@ -14,7 +14,7 @@ const getAllArticlesService = () => {
 const getArticleIDService = async (article_id) => {
   const articleID = await fetchArticleID(article_id);
   if (articleID === undefined) {
-    throw new NotFoundError("Category ID not found!");
+    throw new NotFoundError("Article ID not found!");
   } else {
     return articleID;
   }
@@ -24,7 +24,7 @@ const getArticleCommentsService = async (article_id) => {
   const comments = await fetchArticleComments(article_id);
 
   if (comments === undefined) {
-    throw new NotFoundError("Category ID not found!");
+    throw new NotFoundError("Article ID not found!");
   } else {
     return comments;
   }

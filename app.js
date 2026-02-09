@@ -4,6 +4,7 @@ const articlesRouter = require("./routers/articles_routes");
 const usersRouter = require("./routers/users_routes");
 const commentsRouter = require("./routers/comments_routes");
 const NotFoundError = require("./errors/NotFoundError");
+const InvalidInputError = require("./errors/InvalidInputError");
 
 const app = express();
 app.use(express.json());
@@ -32,6 +33,15 @@ app.use((err, req, res, next) => {
 });
 
 app.use((err, req, res, next) => {
+  if (err instanceof InvalidInputError) {
+    res.status(400).send({ msg: err.message });
+  } else {
+    next(err);
+  }
+});
+
+app.use((err, req, res, next) => {
+  console.log("app js error>>>", err);
   res.status(500).send({ msg: "Internal Server Error" });
 });
 
