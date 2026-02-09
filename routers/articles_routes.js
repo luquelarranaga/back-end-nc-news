@@ -8,14 +8,13 @@ const { getArticleComments } = exportObject;
 const { postArticleComment } = exportObject;
 const { patchArticleVotes } = exportObject;
 
-router.get("/", getAllArticles);
+router.route("/").get(getAllArticles);
 
-router.get("/:article_id", getArticleID);
+router.route("/:article_id").get(getArticleID).patch(patchArticleVotes);
 
-router.get("/:article_id/comments", getArticleComments);
-
-router.post("/:article_id/comments", postArticleComment);
-
-router.patch("/:article_id", patchArticleVotes);
+router
+  .route("/:article_id/comments")
+  .get(getArticleComments)
+  .post(postArticleComment);
 
 module.exports = router;
