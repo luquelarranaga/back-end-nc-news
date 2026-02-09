@@ -69,6 +69,35 @@ describe("/api/articles/", () => {
           expect(articles).toBeSorted({ ascending: true });
         });
     });
+    test("articles are filtered by the topic specified in the query", () => {
+      return request(app)
+        .get("/api/articles?topic=mitch")
+        .expect(200)
+        .then(({ body }) => {
+          const { articles } = body;
+          articles.forEach((article) => {
+            expect(article.topic).toBe("mitch");
+          });
+        });
+    });
+    describe("ERRORS 400", () => {
+      test("returns error message when invalid value passed into sort by query", () => {
+        return request(app)
+          .get("/api/articles?sort_by=vegetable")
+          .expect(400)
+          .then(({ body }) => {
+            expect(body.msg).toBe("Invalid query");
+          });
+      });
+      test("returns error message when invalid value passed into order query", () => {
+        return request(app)
+          .get("/api/articles?order=vegetable")
+          .expect(400)
+          .then(({ body }) => {
+            expect(body.msg).toBe("Invalid query");
+          });
+      });
+    });
   });
 });
 
