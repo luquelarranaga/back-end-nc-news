@@ -1,3 +1,4 @@
+const InvalidInputError = require("../errors/InvalidInputError");
 const exportObject = require("../services/articles_service");
 const { getAllArticlesService } = exportObject;
 const { getArticleIDService } = exportObject;
@@ -15,7 +16,7 @@ const getArticleID = async (req, res, next) => {
   const { article_id } = req.params;
   const regex = /^\d+/;
   if (regex.test(article_id) === false) {
-    return res.status(400).send({ msg: "Invalid ID data type!" });
+    throw new InvalidInputError("Invalid article id!");
   }
 
   try {
@@ -30,7 +31,7 @@ const getArticleComments = async (req, res, next) => {
   const { article_id } = req.params; // {article_id: '1;}
   const regex = /^\d+/;
   if (regex.test(article_id) === false) {
-    return res.status(400).send({ msg: "Invalid ID data type!" });
+    throw new InvalidInputError("Invalid article id!"); // throw error insteAD!
   }
 
   try {
@@ -49,15 +50,13 @@ const postArticleComment = async (req, res, next) => {
     commentKeys.includes("body") === false ||
     commentKeys.length !== 2
   ) {
-    return res
-      .status(400)
-      .send({ msg: "Invalid comment, missing username/body" });
+    throw new InvalidInputError("Invalid comment!");
   }
 
   const { article_id } = req.params;
   const regex = /^\d+/;
   if (regex.test(article_id) === false) {
-    return res.status(400).send({ msg: "Invalid ID data type!" });
+    throw new InvalidInputError("Invalid article id!");
   }
 
   try {
@@ -74,12 +73,12 @@ const patchArticleVotes = async (req, res, next) => {
 
   const votesKeys = Object.keys(votes);
   if (votesKeys.includes("inc_votes") === false || votesKeys.length !== 1) {
-    return res.status(400).send({ msg: "Invalid vote, missing inc_votes" });
+    throw new InvalidInputError("Invalid comment!");
   }
 
   const regex = /^\d+/;
   if (regex.test(article_id) === false) {
-    return res.status(400).send({ msg: "Invalid ID data type!" });
+    throw new InvalidInputError("Invalid article id!");
   }
 
   try {
