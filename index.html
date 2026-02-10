@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css" />
+    <title>**NC News API**</title>
+</head>
+<body>
+    <header>
+        <h1>NC News API</h1>
+        <p class="header-p">Welcome to NC News API. Here you will find details of what each endpoint does</p>
+    </header>
+    <main>
+        <h2>Available Endpoints</h2>
+        <ul>
+            <li class="endpoint-card">
+                <h3>GET /api/topics</h3>
+                <p>Retrieve a list of all topics.</p>
+
+                <h4>Example response:</h4>
+                <pre>
+                    <code>
+    {
+      topics: [
+        {
+          slug: 'mitch',
+          description: 'The man, the Mitch, the legend',
+          img_url: ''
+        },
+        { slug: 'cats', description: 'Not dogs', img_url: '' },
+        {
+          slug: 'paper',
+          description: 'what books are made of',
+          img_url: ''
+        }
+      ]
+    }  
+                    </code>
+                </pre>
+            </li>
+            <li class="endpoint-card">
+                <h3>GET /api/users</h3>
+                <p>Retrieve a list of all the users</p>
+                <h4>Example response:</h4>
+                <pre>
+                    <code>
+    {
+      users: [
+        {
+          username: 'butter_bridge',
+          name: 'jonny',
+          avatar_url: 'https://www.healthytherapies.com/wp-content/uploads/2016/06/Lime3.jpg'
+        },
+        {
+          username: 'icellusedkars',
+          name: 'sam',
+          avatar_url: 'https://avatars2.githubusercontent.com/u/24604688?s=460&v=4'
+        },
+        {
+          username: 'rogersop',
+          name: 'paul',
+          avatar_url: 'https://avatars2.githubusercontent.com/u/24394918?s=400&v=4'
+        },
+        {
+          username: 'lurker',
+          name: 'do_nothing',
+          avatar_url: 'https://www.golenbock.com/wp-content/uploads/2015/01/placeholder-user.png'
+        }
+      ]
+    }                      
+                    </code>
+                </pre>
+
+            </li>
+            <li class="endpoint-card">
+                <h3>DELETE /api/comments/:comments</h3>
+                <p>Deletes a comment depending on the comment id provided</p>
+
+                <h4>Example response:</h4>
+                <pre>
+                    <code>
+    { msg: 'comment deleted' }
+                    </code>
+                </pre>
+            </li>
+            <li class="endpoint-card">
+                <h3>GET /api/articles/</h3>
+                <p>Retrieve a list of all the articles</p>
+                <h4>Example response:</h4>
+                <pre>
+                    <code>
+    {
+      articles: [
+        {
+          author: 'icellusedkars',
+          title: 'Eight pug gifs that remind me of mitch',
+          article_id: 3,
+          topic: 'mitch',
+          created_at: '2020-11-03T09:12:00.000Z',
+          votes: 0,
+          article_img_url: 'https://images.pexels.com/photos/158651/news-newsletter-newspaper-information-158651.jpeg?w=700&h=700',
+          total_comments: 2
+        },
+        {
+          author: 'icellusedkars',
+          title: 'A',
+          article_id: 6,
+          topic: 'mitch',
+          created_at: '2020-10-18T01:00:00.000Z',
+          votes: 0,
+          article_img_url: 'https://images.pexels.com/photos/158651/news-newsletter-newspaper-information-158651.jpeg?w=700&h=700',
+          total_comments: 1
+        },
+        {
+          author: 'icellusedkars',
+          title: 'Sony Vaio; or, The Laptop',
+          article_id: 2,
+          topic: 'mitch',
+          created_at: '2020-10-16T05:03:00.000Z',
+          votes: 0,
+          article_img_url: 'https://images.pexels.com/photos/158651/news-newsletter-newspaper-information-158651.jpeg?w=700&h=700',
+          total_comments: 0
+        },
+        {
+          author: 'butter_bridge',
+          title: 'Another article about Mitch',
+          article_id: 13,
+          topic: 'mitch',
+          created_at: '2020-10-11T11:24:00.000Z',
+          votes: 0,
+          article_img_url: 'https://images.pexels.com/photos/158651/news-newsletter-newspaper-information-158651.jpeg?w=700&h=700',
+          total_comments: 0
+        },
+        {
+          author: 'butter_bridge',
+          title: 'Moustache',
+          article_id: 12,
+          topic: 'mitch',
+          created_at: '2020-10-11T11:24:00.000Z',
+          votes: 0,
+          article_img_url: 'https://images.pexels.com/photos/158651/news-newsletter-newspaper-information-158651.jpeg?w=700&h=700',
+          total_comments: 0
+        },
+        {
+          author: 'rogersop',
+          title: 'UNCOVERED: catspiracy to bring down democracy',
+          article_id: 5,
+          topic: 'cats',
+          created_at: '2020-08-03T13:14:00.000Z',
+          votes: 0,
+          article_img_url: 'https://images.pexels.com/photos/158651/news-newsletter-newspaper-information-158651.jpeg?w=700&h=700',
+          total_comments: 2
+        },
+        {
+          author: 'butter_bridge',
+          title: 'Living in the shadow of a great man',
+          article_id: 1,
+          topic: 'mitch',
+          created_at: '2020-07-09T20:11:00.000Z',
+          votes: 100,
+          article_img_url: 'https://images.pexels.com/photos/158651/news-newsletter-newspaper-information-158651.jpeg?w=700&h=700',
+          total_comments: 11
+        },
+        {
+          author: 'butter_bridge',
+          title: "They're not exactly dogs, are they?",
+          article_id: 9,
+          topic: 'mitch',
+          created_at: '2020-06-06T09:10:00.000Z',
+          votes: 0,
+          article_img_url: 'https://images.pexels.com/photos/158651/news-newsletter-newspaper-information-158651.jpeg?w=700&h=700',
+          total_comments: 2
+        },
+        {
+          author: 'rogersop',
+          title: 'Seven inspirational thought leaders from Manchester UK',
+          article_id: 10,
+          topic: 'mitch',
+          created_at: '2020-05-14T04:15:00.000Z',
+          votes: 0,
+          article_img_url: 'https://images.pexels.com/photos/158651/news-newsletter-newspaper-information-158651.jpeg?w=700&h=700',
+          total_comments: 0
+        },
+        {
+          author: 'rogersop',
+          title: 'Student SUES Mitch!',
+          article_id: 4,
+          topic: 'mitch',
+          created_at: '2020-05-06T01:14:00.000Z',
+          votes: 0,
+          article_img_url: 'https://images.pexels.com/photos/158651/news-newsletter-newspaper-information-158651.jpeg?w=700&h=700',
+          total_comments: 0
+        },
+        {
+          author: 'icellusedkars',
+          title: 'Does Mitch predate civilisation?',
+          article_id: 8,
+          topic: 'mitch',
+          created_at: '2020-04-17T01:08:00.000Z',
+          votes: 0,
+          article_img_url: 'https://images.pexels.com/photos/158651/news-newsletter-newspaper-information-158651.jpeg?w=700&h=700',
+          total_comments: 0
+        },
+        {
+          author: 'icellusedkars',
+          title: 'Am I a cat?',
+          article_id: 11,
+          topic: 'mitch',
+          created_at: '2020-01-15T22:21:00.000Z',
+          votes: 0,
+          article_img_url: 'https://images.pexels.com/photos/158651/news-newsletter-newspaper-information-158651.jpeg?w=700&h=700',
+          total_comments: 0
+        },
+        {
+          author: 'icellusedkars',
+          title: 'Z',
+          article_id: 7,
+          topic: 'mitch',
+          created_at: '2020-01-07T14:08:00.000Z',
+          votes: 0,
+          article_img_url: 'https://images.pexels.com/photos/158651/news-newsletter-newspaper-information-158651.jpeg?w=700&h=700',
+          total_comments: 0
+        }
+      ]
+    }
+                    </code>
+                </pre>
+            </li>
+            <li class="endpoint-card">
+                <h3>GET /api/articles/:article_id</h3>
+                <p>Retrieves a single article by article id</p>
+                <h4>Example response:</h4>
+                <pre>
+                    <code>
+    {
+      article: {
+        article_id: 2,
+        title: 'Sony Vaio; or, The Laptop',
+        topic: 'mitch',
+        author: 'icellusedkars',
+        body: 'Call me Mitchell. Some years ago—never mind how long precisely—having little or no money in my purse, and nothing particular to interest me on shore, I thought I would buy a laptop about a little and see the codey part of the world. It is a way I have of driving off the spleen and regulating the circulation. Whenever I find myself growing grim about the mouth; whenever it is a damp, drizzly November in my soul; whenever I find myself involuntarily pausing before coffin warehouses, and bringing up the rear of every funeral I meet; and especially whenever my hypos get such an upper hand of me, that it requires a strong moral principle to prevent me from deliberately stepping into the street, and methodically knocking people’s hats off—then, I account it high time to get to coding as soon as I can. This is my substitute for pistol and ball. With a philosophical flourish Cato throws himself upon his sword; I quietly take to the laptop. There is nothing surprising in this. If they but knew it, almost all men in their degree, some time or other, cherish very nearly the same feelings towards the the Vaio with me.',
+        created_at: '2020-10-16T05:03:00.000Z',
+        votes: 0,
+        article_img_url: 'https://images.pexels.com/photos/158651/news-newsletter-newspaper-information-158651.jpeg?w=700&h=700',
+        total_comments: 0
+      }
+    }
+                    </code>
+                </pre>
+            </li>
+            <li class="endpoint-card">
+                <h3>PATCH /api/articles/:article_id</h3>
+                <p>Updates the votes of a specific article and returns the updates article</p>
+                <h4>Example response:</h4>
+                <pre>
+                    <code>
+    {
+      article: {
+        article_id: 1,
+        title: 'Living in the shadow of a great man',
+        topic: 'mitch',
+        author: 'butter_bridge',
+        body: 'I find this existence challenging',
+        created_at: '2020-07-09T20:11:00.000Z',
+        votes: 105,
+        article_img_url: 'https://images.pexels.com/photos/158651/news-newsletter-newspaper-information-158651.jpeg?w=700&h=700'
+      }
+    }
+                    </code>
+                </pre>
+            </li>
+            <li class="endpoint-card">
+                <h3>GET /api/articles/:article_id/comments</h3>
+                <p>Retrieve a list of comments pertaining to a given article id</p>
+                <h4>Example response:</h4>
+                <pre>
+                    <code>
+    {
+      comments: [
+        {
+          comment_id: 2,
+          article_id: 1,
+          body: 'I find this existence challenging',
+          votes: 100,
+          author: 'butter_bridge',
+          created_at: '2020-07-09T20:11:00.000Z',
+          title: 'Living in the shadow of a great man',
+          topic: 'mitch',
+          article_img_url: 'https://images.pexels.com/photos/158651/news-newsletter-newspaper-information-158651.jpeg?w=700&h=700'
+        },
+        {
+          comment_id: 3,
+          article_id: 1,
+          body: 'I find this existence challenging',
+          votes: 100,
+          author: 'butter_bridge',
+          created_at: '2020-07-09T20:11:00.000Z',
+          title: 'Living in the shadow of a great man',
+          topic: 'mitch',
+          article_img_url: 'https://images.pexels.com/photos/158651/news-newsletter-newspaper-information-158651.jpeg?w=700&h=700'
+        },
+        {
+          comment_id: 4,
+          article_id: 1,
+          body: 'I find this existence challenging',
+          votes: 100,
+          author: 'butter_bridge',
+          created_at: '2020-07-09T20:11:00.000Z',
+          title: 'Living in the shadow of a great man',
+          topic: 'mitch',
+          article_img_url: 'https://images.pexels.com/photos/158651/news-newsletter-newspaper-information-158651.jpeg?w=700&h=700'
+        },
+        {
+          comment_id: 5,
+          article_id: 1,
+          body: 'I find this existence challenging',
+          votes: 100,
+          author: 'butter_bridge',
+          created_at: '2020-07-09T20:11:00.000Z',
+          title: 'Living in the shadow of a great man',
+          topic: 'mitch',
+          article_img_url: 'https://images.pexels.com/photos/158651/news-newsletter-newspaper-information-158651.jpeg?w=700&h=700'
+        },
+        {
+          comment_id: 6,
+          article_id: 1,
+          body: 'I find this existence challenging',
+          votes: 100,
+          author: 'butter_bridge',
+          created_at: '2020-07-09T20:11:00.000Z',
+          title: 'Living in the shadow of a great man',
+          topic: 'mitch',
+          article_img_url: 'https://images.pexels.com/photos/158651/news-newsletter-newspaper-information-158651.jpeg?w=700&h=700'
+        },
+        {
+          comment_id: 7,
+          article_id: 1,
+          body: 'I find this existence challenging',
+          votes: 100,
+          author: 'butter_bridge',
+          created_at: '2020-07-09T20:11:00.000Z',
+          title: 'Living in the shadow of a great man',
+          topic: 'mitch',
+          article_img_url: 'https://images.pexels.com/photos/158651/news-newsletter-newspaper-information-158651.jpeg?w=700&h=700'
+        },
+        {
+          comment_id: 8,
+          article_id: 1,
+          body: 'I find this existence challenging',
+          votes: 100,
+          author: 'butter_bridge',
+          created_at: '2020-07-09T20:11:00.000Z',
+          title: 'Living in the shadow of a great man',
+          topic: 'mitch',
+          article_img_url: 'https://images.pexels.com/photos/158651/news-newsletter-newspaper-information-158651.jpeg?w=700&h=700'
+        },
+        {
+          comment_id: 9,
+          article_id: 1,
+          body: 'I find this existence challenging',
+          votes: 100,
+          author: 'butter_bridge',
+          created_at: '2020-07-09T20:11:00.000Z',
+          title: 'Living in the shadow of a great man',
+          topic: 'mitch',
+          article_img_url: 'https://images.pexels.com/photos/158651/news-newsletter-newspaper-information-158651.jpeg?w=700&h=700'
+        },
+        {
+          comment_id: 12,
+          article_id: 1,
+          body: 'I find this existence challenging',
+          votes: 100,
+          author: 'butter_bridge',
+          created_at: '2020-07-09T20:11:00.000Z',
+          title: 'Living in the shadow of a great man',
+          topic: 'mitch',
+          article_img_url: 'https://images.pexels.com/photos/158651/news-newsletter-newspaper-information-158651.jpeg?w=700&h=700'
+        },
+        {
+          comment_id: 13,
+          article_id: 1,
+          body: 'I find this existence challenging',
+          votes: 100,
+          author: 'butter_bridge',
+          created_at: '2020-07-09T20:11:00.000Z',
+          title: 'Living in the shadow of a great man',
+          topic: 'mitch',
+          article_img_url: 'https://images.pexels.com/photos/158651/news-newsletter-newspaper-information-158651.jpeg?w=700&h=700'
+        },
+        {
+          comment_id: 18,
+          article_id: 1,
+          body: 'I find this existence challenging',
+          votes: 100,
+          author: 'butter_bridge',
+          created_at: '2020-07-09T20:11:00.000Z',
+          title: 'Living in the shadow of a great man',
+          topic: 'mitch',
+          article_img_url: 'https://images.pexels.com/photos/158651/news-newsletter-newspaper-information-158651.jpeg?w=700&h=700'
+        }
+      ]
+    }
+                    </code>
+                </pre>
+            </li>
+            <li class="endpoint-card">
+                <h3>POST /api/articles/:article_id/comments</h3>
+                <p>Adds a new comment for to a given article and returns the updated article</p>
+                <h4>Example response:</h4>
+                <pre>
+                    <code>
+    {
+      comment: {
+        comment_id: 19,
+        article_id: 1,
+        body: 'this is my comment',
+        votes: 0,
+        author: 'butter_bridge',
+        created_at: '2026-02-10T12:59:38.664Z'
+      }
+    }
+                    </code>
+                </pre>
+            </li>
+        </ul>
+    </main>
+</body>
+</html>
