@@ -1,9 +1,9 @@
-const getAllTopicsService = require("/Users/malula/NORTHCODERS/projects/nc-news-BE/services/topic_service.js")
+const getAllTopicsService = require("/Users/malula/NORTHCODERS/projects/nc-news-BE/services/topic_service.js");
 
 const getAllTopics = async (req, res) => {
-    const topics = await getAllTopicsService()
+  const topics = await getAllTopicsService();
 
-    return res.status(200).send({topics: topics})
-}
+  return res.status(200).send({ topics: topics });
+};
 
 module.exports = getAllTopics;

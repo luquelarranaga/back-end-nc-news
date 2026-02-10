@@ -5,7 +5,6 @@ const doesArticleExist = require("../utils/doesArticleExist");
 const isSortByValid = require("../utils/isSortByValid");
 
 const fetchAllArticles = async (sort_by, order, topic) => {
-  console.log("topic in model>>", topic);
   if (topic) {
     const result = await db.query(`SELECT * FROM articles WHERE topic = $1`, [
       topic,
@@ -22,11 +21,9 @@ const fetchAllArticles = async (sort_by, order, topic) => {
         ORDER BY articles.`;
 
   queryStr += sort_by + " " + order.toUpperCase();
-  console.log("query string is>>>", queryStr);
 
   const result = await db.query(queryStr);
   const { rows } = result;
-  console.log("fetch all articles result>>>> ", rows);
 
   return rows;
 
@@ -48,7 +45,6 @@ const fetchArticleID = async (article_id) => {
   );
   //returns an object that contains keys such as body and rows. Rows contains the values we want
   const { rows } = result;
-  console.log("fetch article id result>>>> ", rows);
   return rows[0];
 };
 

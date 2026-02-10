@@ -8,12 +8,10 @@ const { updateVotesService } = exportObject;
 
 const getAllArticles = async (req, res, next) => {
   const query = req.query;
-  console.log(req.query);
   try {
     const articles = await getAllArticlesService(query);
     return res.status(200).send({ articles: articles });
   } catch (err) {
-    console.log("error in controller>>>", err);
     next(err);
   }
 };
