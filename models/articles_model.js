@@ -26,6 +26,8 @@ const fetchAllArticles = async (sort_by, order, topic) => {
 
   const result = await db.query(queryStr);
   const { rows } = result;
+  console.log("fetch all articles result>>>> ", rows);
+
   return rows;
 
   //returns an object that contains keys such as body and rows. Rows contains the values we want
@@ -35,11 +37,18 @@ const fetchAllArticles = async (sort_by, order, topic) => {
 
 const fetchArticleID = async (article_id) => {
   const result = await db.query(
-    `SELECT * FROM articles WHERE article_id = $1`,
+    `SELECT articles.*, CAST(COUNT(comments) AS int) AS total_comments 
+        FROM articles
+        LEFT JOIN comments
+        ON articles.article_id = comments.article_id
+        WHERE articles.article_id = $1
+        GROUP BY articles.article_id
+       `,
     [article_id],
   );
   //returns an object that contains keys such as body and rows. Rows contains the values we want
   const { rows } = result;
+  console.log("fetch article id result>>>> ", rows);
   return rows[0];
 };
 

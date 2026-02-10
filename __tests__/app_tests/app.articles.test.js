@@ -136,6 +136,15 @@ describe("/api/articles/:article_id", () => {
           expect(typeof article.article_img_url).toBe("string");
         });
     });
+    test("article object contains a key of total_comments", () => {
+      return request(app)
+        .get("/api/articles/1")
+        .expect(200)
+        .then(({ body }) => {
+          const { article } = body;
+          expect(typeof article.total_comments).toBe("number");
+        });
+    });
     test("article returned corresponds to correct article_id", () => {
       return request(app)
         .get("/api/articles/1")
