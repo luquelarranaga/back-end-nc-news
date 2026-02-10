@@ -35,4 +35,15 @@ describe("/api/users/", () => {
         });
       });
   });
+  test("405: incorrect http method returns an error message", () => {
+    const methods = ["put", "patch", "post", "delete"];
+    methods.forEach((method) => {
+      return request(app)
+        [method]("/api/users")
+        .expect(405)
+        .then(({ body }) => {
+          expect(body.msg).toBe("Method not allowed");
+        });
+    });
+  });
 });

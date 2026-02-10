@@ -106,6 +106,19 @@ describe("/api/articles/", () => {
           });
       });
     });
+    describe("ERRORS 405", () => {
+      test("405: incorrect http method returns an error message", () => {
+        const methods = ["put", "patch", "post", "delete"];
+        methods.forEach((method) => {
+          return request(app)
+            [method]("/api/articles/")
+            .expect(405)
+            .then(({ body }) => {
+              expect(body.msg).toBe("Method not allowed");
+            });
+        });
+      });
+    });
   });
 });
 
@@ -113,7 +126,7 @@ describe("/api/articles/:article_id", () => {
   describe("GET 200", () => {
     test("responds with an object with a key of articles with a value of an object", () => {
       return request(app)
-        .get("/api/articles/2")
+        .get("/api/articles/1")
         .expect(200)
         .then(({ body }) => {
           expect(body).toBeObject();
@@ -254,6 +267,19 @@ describe("/api/articles/:article_id", () => {
         });
     });
   });
+  describe("ERROR 405", () => {
+    test("405: incorrect http method returns an error message", () => {
+      const methods = ["put", "post", "delete"];
+      methods.forEach((method) => {
+        return request(app)
+          [method]("/api/articles/1")
+          .expect(405)
+          .then(({ body }) => {
+            expect(body.msg).toBe("Method not allowed");
+          });
+      });
+    });
+  });
 });
 
 describe("/api/articles/:article_id/comments", () => {
@@ -386,6 +412,19 @@ describe("/api/articles/:article_id/comments", () => {
           .expect(404)
           .then(({ body }) => {
             expect(body.msg).toBe("Article ID not found!");
+          });
+      });
+    });
+  });
+  describe("ERROR 405", () => {
+    test("405: incorrect http method returns an error message", () => {
+      const methods = ["put", "patch", "delete"];
+      methods.forEach((method) => {
+        return request(app)
+          [method]("/api/articles/1/comments")
+          .expect(405)
+          .then(({ body }) => {
+            expect(body.msg).toBe("Method not allowed");
           });
       });
     });

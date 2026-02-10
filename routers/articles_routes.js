@@ -9,9 +9,13 @@ const { getArticleComments } = exportObject;
 const { postArticleComment } = exportObject;
 const { patchArticleVotes } = exportObject;
 
-router.route("/").get(getAllArticles);
+router.route("/").get(getAllArticles).all(handleInvalidMethods);
 
-router.route("/:article_id").get(getArticleID).patch(patchArticleVotes);
+router
+  .route("/:article_id")
+  .get(getArticleID)
+  .patch(patchArticleVotes)
+  .all(handleInvalidMethods);
 
 router
   .route("/:article_id/comments")
