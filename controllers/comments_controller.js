@@ -4,7 +4,6 @@ const getComment = async (req, res, next) => {
   const { comment_id } = req.params;
 
   const regex = /^\d+/;
-  console.log("regex result>>>>", regex.test(comment_id));
   if (regex.test(comment_id) === false) {
     return res.status(400).send({ msg: "Invalid comment!" });
   }
