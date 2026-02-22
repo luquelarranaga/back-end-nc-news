@@ -12,6 +12,8 @@ app.use(express.json());
 
 //MIDDLEWARE CHAIN
 
+app.use("/api", express.static("public"));
+
 app.use("/api/articles", articlesRouter);
 
 app.use("/api/comments", commentsRouter);
