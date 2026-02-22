@@ -50,17 +50,25 @@ describe("/api/users/", () => {
 
 describe("/api/users/:username", () => {
   describe("GET 200", () => {
-    test("GET 200: responds with an object the properties username, avater_url, and name", () => {
+    test("responds with an object the properties username, avater_url, and name", () => {
       return request(app)
         .get("/api/users/butter_bridge")
         .expect(200)
         .then(({ body }) => {
           const { user } = body;
-          console.log("username result>>>", user);
           expect(user).toBeObject();
           expect(typeof user.username).toBe("string");
           expect(typeof user.avatar_url).toBe("string");
           expect(typeof user.name).toBe("string");
+        });
+    });
+    test("returned username object corresponds to the correct username provided", () => {
+      return request(app)
+        .get("/api/users/butter_bridge")
+        .expect(200)
+        .then(({ body }) => {
+          const { user } = body;
+          expect(user.username).toBe("butter_bridge");
         });
     });
     //   test("GET 200: responds with the correct users object", () => {
