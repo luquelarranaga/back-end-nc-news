@@ -83,4 +83,14 @@ describe("/api/users/:username", () => {
         });
     });
   });
+  describe("ERROR 404", () => {
+    test("returns error message when attempting to get a username that doesn't exist in database", () => {
+      return request(app)
+        .get("/api/users/zzzzzzzzzz")
+        .expect(404)
+        .then(({ body }) => {
+          expect(body.msg).toBe("Username not found!");
+        });
+    });
+  });
 });
