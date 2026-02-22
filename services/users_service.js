@@ -1,7 +1,13 @@
-const fetchAllUsers = require("../models/users_model");
+const exportObject = require("../models/users_model");
+const { fetchAllUsers } = exportObject;
+const { fetchUser } = exportObject;
 
 const getAllUsersService = () => {
   return fetchAllUsers();
 };
 
-module.exports = getAllUsersService;
+const getUserService = (username) => {
+  return fetchUser(username);
+};
+
+module.exports = { getAllUsersService, getUserService };
