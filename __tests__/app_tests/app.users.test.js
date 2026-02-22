@@ -71,31 +71,16 @@ describe("/api/users/:username", () => {
           expect(user.username).toBe("butter_bridge");
         });
     });
-    //   test("GET 200: responds with the correct users object", () => {
-    //     return request(app)
-    //       .get("/api/users/")
-    //       .expect(200)
-    //       .then(({ body }) => {
-    //         const { users } = body;
-    //         users.forEach((user) => {
-    //           expect(typeof user.username).toBe("string");
-    //           expect(typeof user.name).toBe("string");
-    //           expect(typeof user.avatar_url).toBe("string");
-    //         });
-    //       });
-    //   });
-    // });
-    // describe("ERROR 400", () => {
-    //   test("405: incorrect http method returns an error message", () => {
-    //     const methods = ["put", "patch", "post", "delete"];
-    //     methods.forEach((method) => {
-    //       return request(app)
-    //         [method]("/api/users")
-    //         .expect(405)
-    //         .then(({ body }) => {
-    //           expect(body.msg).toBe("Method not allowed");
-    //         });
-    //     });
-    //   });
+  });
+  describe("ERROR 400", () => {
+    test("returns error message trying to get user with invalid username", () => {
+      return request(app)
+        .get("/api/users/&&^£&@@")
+        .expect(400)
+        .send()
+        .then(({ body }) => {
+          expect(body.msg).toBe("Invalid username!");
+        });
+    });
   });
 });

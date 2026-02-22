@@ -10,6 +10,10 @@ const getAllUsers = async (req, res) => {
 
 const getUser = async (req, res) => {
   const { username } = req.params;
+  const regex = /([\d\w_])+/;
+  if (regex.test(username) === false) {
+    return res.status(400).send({ msg: "Invalid username!" });
+  }
   const user = await getUserService(username);
   return res.status(200).send({ user: user });
 };
