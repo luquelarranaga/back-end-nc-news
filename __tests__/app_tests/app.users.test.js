@@ -93,4 +93,17 @@ describe("/api/users/:username", () => {
         });
     });
   });
+  describe("ERROR 405", () => {
+    test("405: incorrect http method returns an error message", () => {
+      const methods = ["put", "post", "patch", "delete"];
+      methods.forEach((method) => {
+        return request(app)
+          [method]("/api/users/butter_bridge")
+          .expect(405)
+          .then(({ body }) => {
+            expect(body.msg).toBe("Method not allowed");
+          });
+      });
+    });
+  });
 });
