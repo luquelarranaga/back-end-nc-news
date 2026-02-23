@@ -5,8 +5,11 @@ const usersRouter = require("./routers/users_routes");
 const commentsRouter = require("./routers/comments_routes");
 const NotFoundError = require("./errors/NotFoundError");
 const InvalidInputError = require("./errors/InvalidInputError");
+const cors = require("cors");
 
 const app = express();
+
+app.use(cors());
 
 app.use(express.json());
 
