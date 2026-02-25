@@ -57,9 +57,8 @@ const fetchArticleComments = async (article_id) => {
   const result = await db.query(
     `
     SELECT * FROM comments
-    JOIN articles
-    ON comments.article_id = articles.article_id
-    WHERE comments.article_id = $1`,
+    WHERE comments.article_id = $1
+    ORDER BY created_at DESC`,
     [article_id],
   );
   const { rows } = result;

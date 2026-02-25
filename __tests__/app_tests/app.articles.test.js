@@ -300,6 +300,7 @@ describe("/api/articles/:article_id/comments", () => {
         .then(({ body }) => {
           const { comments } = body;
           comments.forEach((comment) => {
+            console.log(comment);
             expect(typeof comment.comment_id).toBe("number");
             expect(typeof comment.votes).toBe("number");
             expect(typeof comment.created_at).toBe("string");
