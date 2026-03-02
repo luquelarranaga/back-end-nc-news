@@ -1,28 +1,462 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>NC News API</title>
+    <link rel="stylesheet" href="./stylesheet.css">
 </head>
-<body>
-    <header>
-        <nav>
-            <h1>Welcome to NC News API</h1>
-            <ul>
-                <li>Articles</li>
-                <li>Comments</li>
-                <li>Topics</li>
-                <li>Users</li>
-            </ul>
-        </nav>
-        </header>
-        <main>main???</main>
-        <section>A brief description of the purpose and functionality of the endpoint
-Acceptable queries
-The format of the request body
-An example response
-Any other information you think might be helpful!</section>
-<footer></footer>
+
+<header>
+  <div class="logo">NC News <span>API</span></div>
+  <span class="header-badge">REST</span>
+</header>
+
+<div class="layout">
+
+  <nav>
+    <div class="nav-group">
+      <span class="nav-label">Overview</span>
+      <a href="#intro" class="active">Introduction</a>
+    </div>
+    <div class="nav-group">
+      <span class="nav-label">Articles</span>
+      <a href="#get-articles">GET /articles</a>
+      <a href="#get-article-id">GET /articles/:id</a>
+      <a href="#patch-article-votes">PATCH /articles/:id</a>
+      <a href="#get-article-comments">GET /articles/:id/comments</a>
+      <a href="#post-article-comment">POST /articles/:id/comments</a>
+    </div>
+    <div class="nav-group">
+      <span class="nav-label">Comments</span>
+      <a href="#delete-comment">DELETE /comments/:id</a>
+    </div>
+    <div class="nav-group">
+      <span class="nav-label">Topics</span>
+      <a href="#get-topics">GET /topics</a>
+    </div>
+    <div class="nav-group">
+      <span class="nav-label">Users</span>
+      <a href="#get-users">GET /users</a>
+      <a href="#get-user">GET /users/:username</a>
+    </div>
+  </nav>
+
+  <main>
+
+    <!-- INTRO -->
+    <section class="hero" id="intro">
+      <p class="hero-eyebrow">Documentation</p>
+      <h1>NC News<br/><em>API Reference</em></h1>
+      <p>A RESTful backend API for a news aggregation platform. Browse and filter articles, manage comments, explore topics, and look up users — all over JSON.</p>
+      <div class="base-url">
+        <span class="base-url-label">Base URL</span>
+        <code>https://your-domain.com/api</code>
+      </div>
+    </section>
+
+    <!-- ARTICLES -->
+    <section id="articles-section">
+      <div class="section-header">
+        <h2>Articles</h2>
+      </div>
+
+      <!-- GET /articles -->
+      <div class="endpoint" id="get-articles">
+        <div class="endpoint-header">
+          <span>GET</span>
+          <span class="endpoint-path">/articles</span>
+          <span class="endpoint-summary">Retrieve all articles</span>
+        </div>
+        <div class="endpoint-body">
+          <p>Returns a list of all articles. Supports sorting, ordering, and filtering by topic via query parameters. Each article includes a <code>total_comments</code> count. The response does NOT include article bodies.</p>
+
+          <div class="info-grid">
+            <div>
+              <div class="info-label">Query Parameters</div>
+              <div>
+                <span><strong>sort_by</strong> = created_at | votes | title | author | topic</span>
+                <span><strong>order</strong> = asc | desc</span>
+                <span><strong>topic</strong> = string</span>
+              </div>
+            </div>
+            <div>
+              <div class="info-label">Defaults</div>
+              <div>
+                <span><strong>sort_by</strong> → created_at</span>
+                <span><strong>order</strong> → desc</span>
+                <span><strong>topic</strong> → null (all)</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="pre-label">Example Response — 200 OK</div>
+          <pre>{
+  "articles"</span>: [
+    {
+      <span>"article_id": 1</span>,
+      <span>"title": "Living in the shadow of a great man"</span>,
+      <span>"author": "butter_bridge"</span>,
+      <span>"topic": "mitch"</span>,
+      <span>"created_at": "2020-07-09T21:11:00.000Z"</span>,
+      <span>"votes": 100</span>,
+      <span>"article_img_url": "https://example.com/img.jpg"</span>,
+      <span>"total_comments": 11</span>
+    }
+  ]
+}</pre>
+
+          <div class="note"><strong>Note:</strong> Passing an invalid <code>sort_by</code>, <code>order</code>, or non-existent <code>topic</code> returns <code>400 Bad Request</code>.</div>
+        </div>
+      </div>
+
+      <!-- GET /articles/:article_id -->
+      <div class="endpoint" id="get-article-id">
+        <div class="endpoint-header">
+          <span class="get">GET</span>
+          <span class="endpoint-path">/articles/:article_id</span>
+          <span class="endpoint-summary">Retrieve a single article</span>
+        </div>
+        <div class="endpoint-body">
+          <p>Returns a single article by its numeric ID, including the full article body and a <code>total_comments</code> count.</p>
+
+          <div class="info-grid">
+            <div>
+              <div class="info-label">Path Parameter</div>
+              <div>
+                <span><strong>article_id</strong> — positive integer</span>
+              </div>
+            </div>
+            <div>
+              <div class="info-label">Errors</div>
+              <div>
+                <span>400 — invalid id format</span>
+                <span>404 — article not found</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="pre-label">Example Response — 200 OK</div>
+          <pre>{
+  <span>"article": {
+    <span>"article_id": 1</span>,
+    <span>"title": "Living in the shadow of a great man"</span>,
+    <span>"author": "butter_bridge"</span>,
+    <span>"body": "I find this existence challenging..."</span>,
+    <span>"topic": "mitch"</span>,
+    <span>"created_at": "2020-07-09T21:11:00.000Z"</span>,
+    <span>"votes": 100</span>,
+    <span>"article_img_url": "https://example.com/img.jpg"</span>,
+    <span>"total_comments": 11</span>
+  }
+}</pre>
+        </div>
+      </div>
+
+      <!-- PATCH /articles/:article_id -->
+      <div class="endpoint" id="patch-article-votes">
+        <div class="endpoint-header">
+          <span>PATCH</span>
+          <span class="endpoint-path">/articles/:article_id</span>
+          <span class="endpoint-summary">Update article votes</span>
+        </div>
+        <div class="endpoint-body">
+          <p>Increments or decrements the vote count on an article. Pass a positive integer to upvote, or a negative integer to downvote. Returns the updated article object.</p>
+
+          <div class="info-grid">
+            <div>
+              <div class="info-label">Request Body</div>
+              <div>
+                <span><strong>inc_votes</strong> — integer (required)</span>
+              </div>
+            </div>
+            <div>
+              <div class="info-label">Errors</div>
+              <div>
+                <span>400 — missing or extra body fields</span>
+                <span>400 — invalid article id</span>
+                <span>404 — article not found</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="pre-label">Request Body</div>
+          <pre>{ "inc_votes": 1 }</pre>
+
+          <div class="pre-label" style="margin-top:1rem;">Example Response — 201 Created</div>
+          <pre>{
+  <span>"article": {
+    <span>"article_id": 1</span>,
+    <span>"votes": 101</span>,
+    ...
+  }
+}</pre>
+          <div><strong>Note:</strong> The body must contain <em>only</em> <code>inc_votes</code>. Any extra or missing fields return <code>400</code>.</div>
+        </div>
+      </div>
+
+      <!-- GET /articles/:article_id/comments -->
+      <div class="endpoint" id="get-article-comments">
+        <div class="endpoint-header">
+          <span class="get">GET</span>
+          <span class="endpoint-path">/articles/:article_id/comments</span>
+          <span class="endpoint-summary">Retrieve comments for an article</span>
+        </div>
+        <div class="endpoint-body">
+          <p>Returns all comments belonging to a specific article, sorted by <code>created_at</code> in descending order (most recent first).</p>
+
+          <div class="info-grid">
+            <div>
+              <div class="info-label">Path Parameter</div>
+              <div>
+                <span><strong>article_id</strong> — positive integer</span>
+              </div>
+            </div>
+            <div>
+              <div class="info-label">Errors</div>
+              <div>
+                <span>400 — invalid id format</span>
+                <span>404 — article not found</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="pre-label">Example Response — 200 OK</div>
+          <pre>{
+  <span>"comments"</span>: [
+    {
+      <span>"comment_id": 5</span>,
+      <span>"article_id": 1</span>,
+      <span>"author": "icellusedkars"</span>,
+      <span>"body": "I hate streaming noses"</span>,
+      <span>"votes": 0</span>,
+      <span>"created_at": "2020-11-03T21:00:00.000Z"</span>
+    }
+  ]
+}</pre>
+        </div>
+      </div>
+
+      <!-- POST /articles/:article_id/comments -->
+      <div class="endpoint">
+        <div class="endpoint-header">
+          <span class="post">POST</span>
+          <span class="endpoint-path">/articles/:article_id/comments</span>
+          <span class="endpoint-summary">Add a comment to an article</span>
+        </div>
+        <div class="endpoint-body">
+          <p>Posts a new comment to a specified article. The <code>username</code> must be an existing user. Returns the newly created comment object.</p>
+
+          <div class="info-grid">
+            <div>
+              <div class="info-label">Request Body (required)</div>
+              <div>
+                <span><strong>username</strong> — string</span>
+                <span><strong>body</strong> — string</span>
+              </div>
+            </div>
+            <div>
+              <div class="info-label">Errors</div>
+              <div>
+                <span>400 — missing / extra body fields</span>
+                <span>400 — invalid article id</span>
+                <span>404 — article not found</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="pre-label">Request Body</div>
+          <pre>{
+  <span>"username": "butter_bridge"</span>,
+  <span>"body": "This is a great article!"</span>
+}</pre>
+
+          <div class="pre-label" style="margin-top:1rem;">Example Response — 201 Created</div>
+          <pre>{
+  <span>"comment"</span>: {
+    <span>"comment_id": 19</span>,
+    <span>"article_id": 1</span>,
+    <span>"author": "butter_bridge"</span>,
+    <span> "body": "This is a great article!"</span>,
+    <span >"votes": 0</span>,
+    <span>"created_at": "2024-03-02T12:00:00.000Z"</span>
+  }
+}</pre>
+          <div><strong>Note:</strong> The body must contain <em>exactly</em> <code>username</code> and <code>body</code>. Any extra or missing fields return <code>400</code>.</div>
+        </div>
+      </div>
+    </section>
+
+    <hr class="divider"/>
+
+    <!-- COMMENTS -->
+    <section id="comments-section">
+      <div class="section-header">
+        <h2>Comments</h2>
+      </div>
+
+      <!-- DELETE /comments/:comment_id -->
+      <div class="endpoint">
+        <div class="endpoint-header">
+          <span class="delete">DELETE</span>
+          <span class="endpoint-path">/comments/:comment_id</span>
+          <span class="endpoint-summary">Delete a comment</span>
+        </div>
+        <div class="endpoint-body">
+          <p>Permanently deletes a comment by its ID. Returns a confirmation message on success.</p>
+
+          <div class="info-grid">
+            <div>
+              <div class="info-label">Path Parameter</div>
+              <div>
+                <span><strong>comment_id</strong> — positive integer</span>
+              </div>
+            </div>
+            <div>
+              <div class="info-label">Errors</div>
+              <div>
+                <span>400 — invalid id format</span>
+                <span>404 — comment not found</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="pre-label">Example Response — 200 OK</div>
+          <pre>{ "msg": "comment deleted" }</pre>
+        </div>
+      </div>
+    </section>
+
+    <hr class="divider"/>
+
+    <!-- TOPICS -->
+    <section id="topics-section">
+      <div class="section-header">
+        <h2>Topics</h2>
+      </div>
+
+      <!-- GET /topics -->
+      <div class="endpoint">
+        <div class="endpoint-header">
+          <span class="get">GET</span>
+          <span class="endpoint-path">/topics</span>
+          <span class="endpoint-summary">Retrieve all topics</span>
+        </div>
+        <div class="endpoint-body">
+          <p>Returns a list of all available topics. Topic slugs can be used as a <code>topic</code> filter when querying <code>/articles</code>.</p>
+
+          <div class="pre-label">Example Response — 200 OK</div>
+          <pre>{
+  <span >"topics"</span>: [
+    {
+      <span>"slug": "mitch"</span>,
+      <span>"description": "The man, the myth, the legend"</span>
+    },
+    {
+      <span>"slug": "cats"</span>,
+      <span>"description": "Not dogs"</span>
+    }
+  ]
+}</pre>
+        </div>
+      </div>
+    </section>
+
+    <hr class="divider"/>
+
+    <!-- USERS -->
+    <section>
+      <div class="section-header">
+        <h2>Users</h2>
+      </div>
+
+      <!-- GET /users -->
+      <div class="endpoint">
+        <div class="endpoint-header">
+          <span class="get">GET</span>
+          <span class="endpoint-path">/users</span>
+          <span class="endpoint-summary">Retrieve all users</span>
+        </div>
+        <div class="endpoint-body">
+          <p>Returns an array of all registered users.</p>
+
+          <div class="pre-label">Example Response — 200 OK</div>
+          <pre>{
+  <span>"users"</span>: [
+    {
+      <span>"username": "butter_bridge"</span>,
+      <span>"name": "jonny"</span>,
+      <span>"avatar_url": "https://example.com/avatar.jpg"</span>
+    }
+  ]
+}</pre>
+        </div>
+      </div>
+
+      <!-- GET /users/:username -->
+      <div class="endpoint" id="get-user">
+        <div class="endpoint-header">
+          <span class="get">GET</span>
+          <span class="endpoint-path">/users/:username</span>
+          <span class="endpoint-summary">Retrieve a single user</span>
+        </div>
+        <div class="endpoint-body">
+          <p>Returns a single user object matching the given username. Usernames must consist of word characters, digits, or underscores only.</p>
+
+          <div class="info-grid">
+            <div>
+              <div class="info-label">Path Parameter</div>
+              <div>
+                <span><strong>username</strong> — alphanumeric / underscores</span>
+              </div>
+            </div>
+            <div>
+              <div class="info-label">Errors</div>
+              <div>
+                <span>400 — invalid username format</span>
+                <span>404 — username not found</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="pre-label">Example Response — 200 OK</div>
+          <pre>{
+  <span>"user"</span>: {
+    <span>"username": "butter_bridge"</span>,
+    <span>"name": "jonny"</span>,
+    <span>"avatar_url": "https://example.com/avatar.jpg"</span>
+  }
+}</pre>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<footer>
+  <span>NC News API · REST · JSON</span>
+  <span>All endpoints prefixed with <code>/api</code></span>
+</footer>
+
+<script>
+  // Highlight nav links on scroll
+  const sections = document.querySelectorAll('.endpoint');
+  const navLinks = document.querySelectorAll('nav a');
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const id = entry.target.id;
+        navLinks.forEach(link => {
+          link.classList.toggle('active', link.getAttribute('href') === '#' + id);
+        });
+      }
+    });
+  }, { rootMargin: '-20% 0px -70% 0px' });
+
+  sections.forEach(s => observer.observe(s));
+</script>
+
 </body>
 </html>
