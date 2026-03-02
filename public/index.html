@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="./stylesheet.css">
 </head>
 
+<body>
 <header>
   <div class="logo">NC News <span>API</span></div>
   <span class="header-badge">REST</span>
@@ -238,7 +239,7 @@
       </div>
 
       <!-- POST /articles/:article_id/comments -->
-      <div class="endpoint">
+      <div class="endpoint" id="post-article-comment">
         <div class="endpoint-header">
           <span class="post">POST</span>
           <span class="endpoint-path">/articles/:article_id/comments</span>
@@ -296,7 +297,7 @@
       </div>
 
       <!-- DELETE /comments/:comment_id -->
-      <div class="endpoint">
+      <div class="endpoint" id="delete-comment">
         <div class="endpoint-header">
           <span class="delete">DELETE</span>
           <span class="endpoint-path">/comments/:comment_id</span>
@@ -336,7 +337,7 @@
       </div>
 
       <!-- GET /topics -->
-      <div class="endpoint">
+      <div class="endpoint" id="get-topics">
         <div class="endpoint-header">
           <span class="get">GET</span>
           <span class="endpoint-path">/topics</span>
@@ -365,13 +366,13 @@
     <hr class="divider"/>
 
     <!-- USERS -->
-    <section>
+    <section id="users-section">
       <div class="section-header">
         <h2>Users</h2>
       </div>
 
       <!-- GET /users -->
-      <div class="endpoint">
+      <div class="endpoint" id="get-users">
         <div class="endpoint-header">
           <span class="get">GET</span>
           <span class="endpoint-path">/users</span>
